@@ -11,42 +11,42 @@ public class VectorTests {
      * Test method for the add method in primitives.Vector
      */
     @Test
-    void add() {
+    void testAdd() {
     }
     /**
      * Test method for the scale method in primitives.Vector
      */
     @Test
-    void scale() {
+    void testScale() {
     }
     /**
      * Test method for the crossProduct method in primitives.Vector
      */
     @Test
-    void crossProduct() {
+    void testCrossProduct() {
     }
     /**
      * Test method for the lengthSquared method in primitives.Vector
      */
     @Test
-    void lengthSquared() {
+    void testLengthSquared() {
     }
     /**
      * Test method for the length method in primitives.Vector
      */
     @Test
-    void length() {
+    void testLength() {
     }
     /**
      * Test method for the normalize method in primitives.Vector
      */
     @Test
-    void normalize() {
+    void testNormalize() {
     }
     /**
      * Test method for the dotProduct method in primitives.Vector
      */
     @Test
-    void dotProduct() {
+    void testDotProduct() {
     }
 }

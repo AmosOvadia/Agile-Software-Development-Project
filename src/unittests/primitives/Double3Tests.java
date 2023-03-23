@@ -1,32 +1,43 @@
 package unittests.primitives;
 
 import org.junit.jupiter.api.Test;
-
+/**
+ * Unit tests for primitives.Double3 class
+ */
 public class Double3Tests {
+    /**
+     * Test method for the add method in primitives.Vector
+     */
     @Test
-    void add() {
+    void testAdd() {
     }
-
+    /**
+     * Test method for the subtract method in primitives.Vector
+     */
     @Test
-    void subtract() {
+    void taetSubtract() {
     }
-
+    /**
+     * Test method for the scale method in primitives.Vector
+     */
     @Test
-    void scale() {
+    void testScale() {
     }
-
+    /**
+     * Test method for the reduce method in primitives.Vector
+     */
     @Test
-    void reduce() {
+    void testReduce() {
     }
-
+    /**
+     * Test method for the product method in primitives.Vector
+     */
     @Test
-    void product() {
+    void testProduct() {
     }
-
-    @Test
-    void lowerThan() {
-    }
-
+    /**
+     * Test method for the testLowerThan method in primitives.Vector
+     */
     @Test
     void testLowerThan() {
     }
