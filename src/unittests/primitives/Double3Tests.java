@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 public class Double3Tests {
     @Test
-    void add() {
+    void asdf() {
     }
 
     @Test
