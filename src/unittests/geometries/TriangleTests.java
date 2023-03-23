@@ -1,4 +1,4 @@
 package unittests.geometries;
 
-public class PointTest {
+public class TriangleTests {
 }
