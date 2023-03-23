@@ -3,7 +3,7 @@ package primitives;
 /**
  * class that represents a ray in space
  */
-public class Ray {
+public class    Ray {
     /**
      * represents the point of the ray
      */
