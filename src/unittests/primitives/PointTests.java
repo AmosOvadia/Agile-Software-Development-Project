@@ -1,33 +1,22 @@
 package unittests.primitives;
 
 import org.junit.jupiter.api.Test;
-/**
- * Unit tests for primitives.Point class
- */
+
 public class PointTests {
-    /**
-     * Test method for the add method in primitives.Vector
-     */
     @Test
-    void testAdd() {
+    void add() {
     }
 
-    /**
-     * Test method for the subtract method in primitives.Vector
-     */
+
     @Test
-    void testSubtract() {
+    void subtract() {
     }
-    /**
-     * Test method for the distance method in primitives.Vector
-     */
+
     @Test
-    void testDistance() {
+    void distance() {
     }
-    /**
-     * Test method for the distanceSquared method in primitives.Vector
-     */
+
     @Test
-    void testDistanceSquared() {
+    void distanceSquared() {
     }
 }
