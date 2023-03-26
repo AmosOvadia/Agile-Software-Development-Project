@@ -13,12 +13,20 @@ public class    Ray {
      */
     private Vector dir;
 
+    public Point getP0() {
+        return p0;
+    }
+
+    public Vector getDir() {
+        return dir;
+    }
+
     /**
      * constructor that sets the point and vector
      * @param p
      * @param v
      */
-    Ray(Point p, Vector v) {
+   public Ray(Point p, Vector v) {
         try {
             dir.xyz = v.normalize().xyz;
         }

@@ -8,4 +8,8 @@ public abstract class RadialGeometry implements Geometry{
      * radius of the shape
      */
     protected double radius;
+
+
+
+
 }

@@ -3,6 +3,7 @@ package primitives;
 
 import static java.lang.Math.sqrt;
 
+
 /**
  * class representation of a vector in space
  */
@@ -42,7 +43,11 @@ public class Vector extends Point{
 
         return false;
     }
-
+    public boolean equals(Vector other, double epsilon) {
+        return Math.abs(this.xyz.getD1() - other.xyz.getD1()) < epsilon
+                && Math.abs(this.xyz.getD2() - other.xyz.getD2()) < epsilon
+                && Math.abs(this.xyz.getD3() - other.xyz.getD3()) < epsilon;
+    }
     @Override
     public String toString() {
         return "Vector: " + super.toString();

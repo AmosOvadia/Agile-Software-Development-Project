@@ -12,6 +12,10 @@ public class Point {
      */
     protected Double3 xyz;
 
+    public Double3 getXyz() {
+        return xyz;
+    }
+
     /**
      * ctor for the point
      * @param d three double numbers
