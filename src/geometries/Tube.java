@@ -22,12 +22,15 @@ public class Tube extends RadialGeometry{
     }
     @Override
     public Vector getNormal(Point p) {
-       Vector vector = p.subtract(axisRay.getP0());
-       double t = axisRay.getDir().dotProduct(vector);
-       Point center = axisRay.getP0().add(axisRay.getDir().scale(t));
+        Vector vector = p.subtract(axisRay.getP0());
+        double t = axisRay.getDir().dotProduct(vector);
+        Point center = axisRay.getP0().add(axisRay.getDir().scale(t));
         Vector result = p.subtract(center);
-        if(result.length() != radius)
-            throw new IllegalArgumentException("the point is not on the sphere");
+        double s = result.length() - radius;
+        if (Math.abs(s) > 1e-10) {
+            throw new IllegalArgumentException("The point is not on the tube.");
+        }
         return result.normalize();
+
     }
 }
