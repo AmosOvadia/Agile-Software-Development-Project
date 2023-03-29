@@ -28,14 +28,14 @@ public class    Ray {
      */
    public Ray(Point p, Vector v) {
         try {
-            dir.xyz = v.normalize().xyz;
+            dir = new Vector( v.normalize().xyz);
         }
 
         //if the length of the vector is 0 we get an error for division by 0
         catch (ArithmeticException ex) {
             dir.xyz = new Double3(0, 0, 0);
         }
-        p0.xyz = p.xyz;
+        p0 =  new Point(p.xyz);
     }
     @Override
     public boolean equals(Object obj) {

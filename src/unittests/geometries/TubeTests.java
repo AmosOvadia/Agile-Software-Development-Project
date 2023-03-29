@@ -17,15 +17,23 @@ public class TubeTests {
      */
     @Test
     void testGetNormal() {
-        Tube tube = new Tube(new Ray(new Point(0,0,0),new Vector(1,1,0)),2);
-        Point pos = new Point(4,4,1);
-
-        Vector expected = new Vector(-0.696311,-0.696311,0.174078);
-        assertTrue( expected.equals(tube.getNormal(pos), 0.001));
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Test for a point on the tube
 
 
+        // Define the ray
+        Ray ray = new Ray(new Point(0,0,0), new Vector(1,1,0));
 
+        // Create a tube object with radius 2 and the defined ray
+        Tube tube = new Tube(ray, 2);
 
+        // Create two expected normal vectors
+        Vector expected1 = new Vector(0, 0, 1);
+        Vector expected2 = new Vector(0, 0, -1);
 
+        // Test if the normal at point (2, 2, 2) is either the first or the second expected normal vector
+        assertTrue((expected1.equals(tube.getNormal(new Point(2,2,2)), 0.001) ||
+                expected2.equals(tube.getNormal(new Point(2,2,2)), 0.001)));
     }
+
 }
