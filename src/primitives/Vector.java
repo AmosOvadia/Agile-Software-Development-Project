@@ -12,6 +12,7 @@ public class Vector extends Point{
     /**
      * constructor that gets a Double3
      * @param d a Double3
+     * @throws IllegalArgumentException if all axes are 0
      */
     Vector(Double3 d) {
         super(d);

@@ -22,6 +22,6 @@ class SphereTests {
         Sphere sphere = new Sphere(new Point(1,1,1),5);
         Point pos = new Point(1,1,6);
         Vector expacted = new Vector(0,0,1);
-          assertEquals(expacted,sphere.getNormal(pos));
+        assertEquals(expacted,sphere.getNormal(pos));
     }
 }

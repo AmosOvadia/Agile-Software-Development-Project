@@ -2,6 +2,7 @@ package unittests.primitives;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
 import primitives.Vector;
 
 import static primitives.Util.isZero;
@@ -18,6 +19,12 @@ public class VectorTests {
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
 
+        // TC01: correct vector creation
+        try {
+            new Vector(1, 1, 1);
+        } catch (IllegalArgumentException e) {
+            fail("Failed constructing a correct polygon");
+        }
 
         // =============== Boundary Values Tests ==================
         // TC10: test zero vector
@@ -32,10 +39,12 @@ public class VectorTests {
     void testAdd() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(-2, -4, -6);
-        // Test add & subtract
+
         // ============ Equivalence Partitions Tests ==============
-        // TC10: test add different signs
-        assertEquals(new Vector(-1, -2, -3), v1.add(v2), "ERROR: Point - Point does not work correctly");
+        // TC01: test add different signs
+        assertEquals(new Vector(-1, -2, -3), v1.add(v2), "ERROR: Vector + Vector does not work correctly");
+        // TC02: test add same vector
+        assertEquals(new Vector(3, 6, 9), v1.add(new Vector(2, 4, 6)), "ERROR: Vector + Vector does not work correctly");
 
         // =============== Boundary Values Tests ==================
         // TC10: test zero vector
@@ -52,8 +61,12 @@ public class VectorTests {
 
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(-2, -4, -6);
+        Vector v3 = new Vector(2, 4, 6);
         //============ Equivalence Partitions Tests ==============
-        // TC01: test subtract
+        // TC01: test subtract same signs
+        assertEquals(new Vector(-1,-2,-3), v1.subtract(v3), "ERROR: Vector - Vector does not work correctly");
+
+        // TC02: test subtract different signs
         assertEquals(new Vector(3, 6, 9), v1.subtract(v2), "ERROR: Point - Point does not work correctly");
 
         // =============== Boundary Values Tests ==================
@@ -65,8 +78,23 @@ public class VectorTests {
      * Test method for the scale method in primitives.Vector
      */
     @Test
-    void addScale() {
+    void testScaling() {
+        Vector v = new Vector(1, 2, 3);
+
+        // ============ Equivalence Partitions Tests ==============
+
+        // TC01: test scale positive
+        assertEquals(new Vector(2, 4, 6), v.scale(2), "ERROR: scaling a vector is does not work correctly");
+
+        // TC02: test scale negative
+        assertEquals(new Vector(-2, -4, -6), v.scale(-2), "ERROR: scaling a vector is does not work correctly");
+
+        // =============== Boundary Values Tests ==================
+
+        // TC03: test scale zero
+        assertThrows(IllegalArgumentException.class, () -> v.scale(0), "ERROR: scaling a vector by zero does not throw an exception");
     }
+
     /**
      * Test method for the crossProduct method in primitives.Vector
      */
@@ -117,6 +145,7 @@ public class VectorTests {
      */
     @Test
     void testNormalize() {
+
         Vector v = new Vector(1, 2, 3);
         Vector u = v.normalize();
 

@@ -5,7 +5,7 @@ import primitives.Point;
 /**
  * a class representation of a triangle
  */
-public class Triangle extends Polygon{
+public class Triangle extends Polygon {
     /**
      *constructor for the triangle
      * @param p1 point x

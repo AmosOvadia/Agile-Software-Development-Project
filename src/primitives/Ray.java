@@ -23,8 +23,8 @@ public class    Ray {
 
     /**
      * constructor that sets the point and vector
-     * @param p
-     * @param v
+     * @param p point of the ray
+     * @param v vector of the ray
      */
    public Ray(Point p, Vector v) {
         try {
