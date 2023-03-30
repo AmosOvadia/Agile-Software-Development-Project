@@ -27,7 +27,9 @@ public class PointTests {
 
         // =============== Boundary Values Tests ==================
         // TC03: test add zero vector
-        assertEquals(new Point(1, 2, 3), p1.add(new Vector(0, 0, 0)), "ERROR: Point + Vector does not work correctly");
+
+        Point p2 = new Point(0, 0, 0);
+        assertEquals(new Point(1, 2, 3), p2.add(new Vector(1, 2, 3)), "ERROR: Point + Vector does not work correctly");
         // TC04: test add zero point
 
 

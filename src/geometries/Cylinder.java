@@ -17,7 +17,7 @@ import primitives.Point;
         super(a, r);
         if (h < 0 )
             throw  new IllegalArgumentException("the height less then zero!");
-            this.height = h;
+        this.height = h;
     }
 
     @Override
@@ -31,15 +31,23 @@ import primitives.Point;
     public Vector getNormal(Point p) throws IllegalArgumentException {
 // If the point is at the top or bottom center of the cylinder, return the cylinder's axis direction
         if (p.equals(axisRay.getP0())) {
-            return axisRay.getDir().normalize();
+            return axisRay.getDir().scale(-1).normalize();
         }
         if(p.equals(axisRay.getP0().add(axisRay.getDir().scale(height))))
         {
-            return axisRay.getDir().scale(-1).normalize();
+            return axisRay.getDir().normalize();
         }
 // Calculate the center point of the cylinder at the height of the given point
-        double t = axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
-        Point center = axisRay.getP0().add(axisRay.getDir().scale(t));
+        double t;
+        Point center;
+        try {
+            t = axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
+            center = axisRay.getP0().add(axisRay.getDir().scale(t));
+        }
+        catch(IllegalArgumentException e)
+        {
+            return axisRay.getDir().normalize();
+        }
 // If the center point is the same as the top or bottom center of the cylinder, return the cylinder's axis direction
         if (center.equals(axisRay.getP0()) || center.equals(axisRay.getP0().add(axisRay.getDir().scale(height)))) {
             return axisRay.getDir().normalize();
