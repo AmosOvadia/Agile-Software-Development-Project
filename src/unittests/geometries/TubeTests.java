@@ -33,6 +33,12 @@ public class TubeTests {
         // Test if the normal at point (2, 2, 2) is either the first or the second expected normal vector
         assertTrue((expected1.equals(tube.getNormal(new Point(2,2,2)), 0.00001) ||
                 expected2.equals(tube.getNormal(new Point(2,2,2)), 0.00001)));
+
+        // ================== Boundary Values Tests ==================
+        // TC10: Test for a point parallel to the tubes point of the ray
+
+        assertTrue((expected1.equals(tube.getNormal(new Point(0,0,2)), 0.00001) ||
+                expected2.equals(tube.getNormal(new Point(0,0,2)), 0.00001)));
     }
 
 }
