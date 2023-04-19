@@ -4,6 +4,8 @@ import geometries.*;
 import primitives.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -24,11 +26,37 @@ class GeometriesTests {
 
         // TC02: no intersection
         geometries.add(new Sphere(new Point(1, 0, 0), 1d),
-                new Plane(new Point(0, 0, 1), new Vector(0, 0, 1)),
+                new Plane(new Point(1, 0, 0), new Point(0,1,0),new Point(0,0,1)),
                 new Triangle(new Point(0, 1, 0), new Point(1, 1, 0), new Point(0, 1, 1)),
                 new Cylinder(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1, 1),
                 new Tube(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1),
-                new Polygon(new Point(0, 0, 0), new Point(1, 0, 0), new Point(1, 1, 0), new Point(0, 1, 0)));
+                new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 0, 0), new Point(0, 1, 0)));
+
+        assertNull(geometries.findIntersections(new Ray(new Point(4, 4, 4), new Vector(1, 1, 1))),
+                "no Intersections");
+
+        // TC03: one shape is cut out
+        Ray ray = new Ray(new Point(-2, -2, 6), new Vector(-1, -1, 0));
+        assertEquals(1, geometries.findIntersections(ray).size(), "the point is not in the polygon");
+
+        // TC04: part of the shapes is cut out
+         ray = new Ray(new Point(0, 0, 6), new Vector(-1, -1, 0));
+        assertEquals(2, geometries.findIntersections(ray).size(), "part of the shapes is cut out");
+
+
+        Geometries geometries2 = new Geometries();
+        geometries2.add(new Sphere(new Point(1, 0, 0), 1d),
+                new Plane(new Point(1, 0, 0), new Point(0,1,0),new Point(0,0,1)),
+                new Triangle(new Point(0, 1, 0), new Point(1, 1, 0), new Point(0, 1, 1)),
+                new Cylinder(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1, 1),
+                new Tube(new Ray(new Point(1, 0, 0), new Vector(-1, 0, 0)), 1),
+                new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 0, 0), new Point(0, 1, 0)));
+        
+        // TC05: All shapes are cut
+        ray = new Ray(new Point(0.25, 0.25, 0.25), new Vector(0, 0, -1));
+        assertEquals(6, geometries2.findIntersections(ray).size(),
+                "All shapes are cut");
+
 
     }
 }
