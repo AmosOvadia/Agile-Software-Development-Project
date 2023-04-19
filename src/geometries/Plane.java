@@ -1,13 +1,18 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
+
+import static primitives.Util.*;
 
 
 /**
  * represents a geometrical plane in space
  */
-public class Plane implements Geometry{
+public class Plane implements Geometry {
     /**
      * the point in the plane
      */
@@ -24,11 +29,12 @@ public class Plane implements Geometry{
      * @param p3 z
      */
     public Plane(Point p1,Point p2,Point p3) {
+       q0 = p1;
        Point point1 = p1.subtract(p2);
        Point point2 = p3.subtract(p2);
        Vector vector1 = new Vector(point1.getXyz().getD1()  ,point1.getXyz().getD2(),point1.getXyz().getD3());
        Vector vector2 = new Vector(point2.getXyz().getD1()  ,point2.getXyz().getD2(),point2.getXyz().getD3());
-        normal = vector1.crossProduct(vector2).normalize();
+       normal = vector1.crossProduct(vector2).normalize();
     }
 
     /**
@@ -52,5 +58,31 @@ public class Plane implements Geometry{
 
     public Vector getNormal() {
         return normal;
+    }
+
+
+    /**
+     * finds the intersections of a ray with the plane
+     * @return List<Point>
+     */
+    public List<Point> findIntersections(Ray ray)
+    {
+        //if the ray is parallel to the plane
+        if(isZero(ray.getDir().dotProduct(normal)))
+            return null;
+
+        //if the ray starts from the plane
+        if(ray.getP0().equals(q0))
+            return null;
+
+        //calculating the point of intersection
+        double t = alignZero((q0.subtract(ray.getP0())).dotProduct(normal) / (ray.getDir().dotProduct(normal)));
+
+        //if the ray is behind the plane
+        if (t <= 0)
+            return null;
+
+        Point P = ray.getP0().add(ray.getDir().scale(t));
+        return List.of(P);
     }
 }
