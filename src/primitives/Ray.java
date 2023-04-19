@@ -51,4 +51,10 @@ public class    Ray {
         return "Ray: " + this.p0.toString() + this.dir.toString();
     }
 
+    //(t double(getPoint Point p
+    public Point getPoint(double t)
+    {
+        return this.p0.add(this.dir.scale(t));
+    }
+
 }
