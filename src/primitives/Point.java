@@ -47,7 +47,7 @@ public class Point {
 
     /**
      * subtracts two points
-     * @param p the point that is subtracted
+     * @param obj the point that is subtracted
      * @return the result vector
      */
     @Override
