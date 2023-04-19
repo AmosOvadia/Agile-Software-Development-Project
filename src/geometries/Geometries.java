@@ -3,6 +3,7 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +24,18 @@ public class Geometries implements Intersectable {
 
     public List<Point> findIntersections(Ray ray)
     {
-        return null;
+        boolean flag = false;
+        for (Intersectable obj : geometries) {
+            flag = obj.findIntersections(ray).size() > 0;
+            break;
+        }
+        if(!flag)
+            return null;
+
+        List<primitives.Point> points = new ArrayList<>();
+        for (Intersectable obj : geometries) {
+            points.addAll(obj.findIntersections(ray));
+        }
+        return points;
     }
 }
