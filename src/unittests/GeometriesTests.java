@@ -29,8 +29,6 @@ class GeometriesTests {
                 new Cylinder(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1, 1),
                 new Tube(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1),
                 new Polygon(new Point(0, 0, 0), new Point(1, 0, 0), new Point(1, 1, 0), new Point(0, 1, 0)));
-        assertNull(geometries.findIntersections(new Ray(new Point(-1, 0, 0), new Vector(1, 1, 0))),
-
 
     }
 }

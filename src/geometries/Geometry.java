@@ -15,6 +15,6 @@ public interface Geometry extends Intersectable {
      * @param P Point
      * @return Vector
      */
-    public Vector getNormal(Point P);
+    Vector getNormal(Point P);
     
 }
