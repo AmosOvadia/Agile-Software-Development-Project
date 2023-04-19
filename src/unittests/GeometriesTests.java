@@ -30,7 +30,7 @@ class GeometriesTests {
                 new Triangle(new Point(0, 1, 0), new Point(1, 1, 0), new Point(0, 1, 1)),
                 new Cylinder(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1, 1),
                 new Tube(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1),
-                new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 0, 0), new Point(0, 1, 0)));
+                new Polygon( new Point(0, 0, 0),new Point(1, 0, 0),new Point(1, 1, 0), new Point(0, 1, 0)));
 
         assertNull(geometries.findIntersections(new Ray(new Point(4, 4, 4), new Vector(1, 1, 1))),
                 "no Intersections");
@@ -50,8 +50,8 @@ class GeometriesTests {
                 new Triangle(new Point(0, 1, 0), new Point(1, 1, 0), new Point(0, 1, 1)),
                 new Cylinder(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1, 1),
                 new Tube(new Ray(new Point(1, 0, 0), new Vector(-1, 0, 0)), 1),
-                new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 0, 0), new Point(0, 1, 0)));
-        
+                new Polygon( new Point(0, 0, 0),new Point(1, 0, 0),new Point(1, 1, 0), new Point(0, 1, 0)));
+
         // TC05: All shapes are cut
         ray = new Ray(new Point(0.25, 0.25, 0.25), new Vector(0, 0, -1));
         assertEquals(6, geometries2.findIntersections(ray).size(),
