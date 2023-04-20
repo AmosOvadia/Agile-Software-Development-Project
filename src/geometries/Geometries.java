@@ -36,19 +36,17 @@ public class Geometries implements Intersectable {
      */
     public List<Point> findIntersections(Ray ray)
     {
-        boolean flag = false;
-        for (Intersectable obj : geometries) {
-            flag = obj.findIntersections(ray) != null;
-            if(flag)
-                break;
-        }
-        if(!flag)
-            return null;
-
-        List<primitives.Point> points = new ArrayList<>();
-        for (Intersectable obj : geometries) {
-            if(obj.findIntersections(ray) != null)
-                points.addAll(obj.findIntersections(ray));
+        List<Point> points = null;
+        //iterates over the list of geometries and finds the intersected points
+        for(Intersectable obj : geometries)
+        {
+            List<Point> lst = obj.findIntersections(ray);
+            if(lst != null)//if there are intersected points we add them to the list
+            {
+                if(points == null)//if the list is empty we create a new list
+                    points = new ArrayList<>();
+                points.addAll(lst);
+            }
         }
         return points;
     }

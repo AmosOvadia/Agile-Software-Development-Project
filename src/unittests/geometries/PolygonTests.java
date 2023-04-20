@@ -93,6 +93,9 @@ public class PolygonTests {
     }
 
 
+    /**
+     * Test method for {@link geometries.Polygon#PointInPolygon(primitives.Point)}.
+     */
     @Test
     void testPointInPolygon() {
 

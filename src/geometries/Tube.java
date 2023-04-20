@@ -72,20 +72,27 @@ public class Tube extends RadialGeometry{
         // and Δp = p - pa
 
 
+        //v
         Vector rayDir = ray.getDir();
+        //p
         Point p1 = ray.getP0();
+        //pa
         Point pNil = this.axisRay.getP0();
+        //va
         Vector dir = this.axisRay.getDir();
+        //Δp
         Vector deltaP = p1.subtract(pNil);
+
         double r = this.radius;
 
-        double scale = rayDir.dotProduct(dir);
+        double scale = rayDir.dotProduct(dir);//(v,va)
         Vector v, delPvava;
         if (isZero(scale))
             v = rayDir;
         else
             v = rayDir.subtract(dir.scale(scale));
 
+        //
         double deltapva = deltaP.dotProduct(dir);
         if(isZero(deltapva))
             delPvava = deltaP;
