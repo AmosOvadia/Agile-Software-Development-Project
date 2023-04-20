@@ -6,7 +6,7 @@ import primitives.Point;
 
 import java.util.List;
 
-import static primitives.Util.alignZero;
+import static primitives.Util.*;
 
 /**
  * a class representation of sphere shapes
@@ -21,7 +21,7 @@ public class Sphere extends RadialGeometry{
 
     public Sphere(Point p,double r)
     {
-        if(r < 0)
+        if(r <= 0)
             throw new IllegalArgumentException("ERROR: the radius less then zero");
         this.radius = r;
         center = p;

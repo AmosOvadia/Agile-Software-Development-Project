@@ -7,6 +7,7 @@ import java.util.List;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import static primitives.Util.*;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -131,7 +132,7 @@ public class Polygon implements Geometry {
                 return false;
             }
             //if the dot-product of the vectors are negative => the vectors are of different signs and the point is outside the polygon
-            if (crossABAP.dotProduct(crossBCBP) < 0) {
+            if (alignZero(crossABAP.dotProduct(crossBCBP)) < 0) {
                 return false;
             }
             //update the cross product so there's never more than 180 degrees between the vectors

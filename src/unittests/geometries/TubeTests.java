@@ -70,8 +70,12 @@ public class TubeTests {
         assertEquals(expectedPoints, result, "Ray crosses sphere");
 
         // TC03: ray is orthogonal to the tube and does not cross the tube
-        tube = new Tube(new Ray(new Point(0,1,1), new Vector(1,-1,5)),2);
+        ray = new Ray(new Point(-3,-1,5), new Vector(1,1,0));
         assertNull(tube.findIntersections(ray), "Ray does not cross sphere");
+
+        // TC04: ray is starts inside the tube
+        ray = new Ray(new Point(3,-1,5), new Vector(1,1,1));
+        assertEquals(1, tube.findIntersections(ray).size(), "Ray does not cross sphere");
 
     }
 

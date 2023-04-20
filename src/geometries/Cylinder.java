@@ -1,7 +1,7 @@
 package geometries;
 
 import primitives.Ray;
-import primitives.Util;
+import static primitives.Util.isZero;
 import primitives.Vector;
 import primitives.Point;
 
@@ -42,7 +42,7 @@ import primitives.Point;
         Point center;
         try {
             t = axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
-            if(Util.isZero(t - height)  || Util.isZero(t))
+            if(isZero(t - height)  || isZero(t))
                 return axisRay.getDir().normalize();
             else
                 return super.getNormal(p);

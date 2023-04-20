@@ -3,6 +3,7 @@ package geometries;
 import primitives.Ray;
 import primitives.Vector;
 import primitives.Point;
+import static primitives.Util.isZero;
 
 import java.util.List;
 
@@ -80,13 +81,13 @@ public class Tube extends RadialGeometry{
 
         double scale = rayDir.dotProduct(dir);
         Vector v, delPvava;
-        if (scale == 0)
+        if (isZero(scale))
             v = rayDir;
         else
             v = rayDir.subtract(dir.scale(scale));
 
         double deltapva = deltaP.dotProduct(dir);
-        if(deltapva == 0)
+        if(isZero(deltapva))
             delPvava = deltaP;
         else
             delPvava = deltaP.subtract(dir.scale(deltapva));
@@ -99,7 +100,7 @@ public class Tube extends RadialGeometry{
         double delta = B * B - 4 * A * C;
         if (delta < 0)
             return null;
-        if (delta == 0)
+        if (isZero(delta))
         {
             t1 = -B / (2 * A);
             if (t1 < 0)

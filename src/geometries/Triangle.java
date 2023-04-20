@@ -3,6 +3,7 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import static primitives.Util.*;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class Triangle extends Polygon {
         }
 
         //if the dotproduct of the vectors are negative => the vectors are of different signs and the point is outside the triangle
-        return (crossABAP.dotProduct(crossABAP) > 0) && (crossBCBP.dotProduct(crossCACP) > 0);
+        return (alignZero(crossABAP.dotProduct(crossABAP)) > 0) && (alignZero(crossBCBP.dotProduct(crossCACP)) > 0);
     }
 
         /*
@@ -80,6 +81,11 @@ public class Triangle extends Polygon {
          */
 
 
+    /**
+     * finds the intersected points of a ray in a triangle
+     * @param ray The ray to intersect with.
+     * @return a list of the intersected points (one)
+     */
     public List<Point> findIntersections(Ray ray)
     {
         //get the intersection point with the plane that the triangle is on

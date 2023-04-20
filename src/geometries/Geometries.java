@@ -4,6 +4,7 @@ import primitives.Point;
 import primitives.Ray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,16 +19,21 @@ public class Geometries implements Intersectable {
 
     }
 
+    /**
+     * adds a list of geometries to the list
+     * @param geometries1
+     */
     public void add(Intersectable... geometries1)
     {
-        for (var i:
-                geometries1) {
-            geometries.add(i);
-        }
-
+        geometries.addAll(Arrays.asList(geometries1));
 
     }
 
+    /**
+     * finds the intersected points of a ray in the list of the geometries
+     * @param ray The ray to intersect with.
+     * @return
+     */
     public List<Point> findIntersections(Ray ray)
     {
         boolean flag = false;
