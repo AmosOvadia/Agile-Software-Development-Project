@@ -51,6 +51,73 @@ public class Tube extends RadialGeometry{
 
     public List<Point> findIntersections(Ray ray)
     {
-        return null;
+        //credit: https://mrl.cs.nyu.edu/~dzorin/rend05/lecture2.pdf
+        // the tube's equation:
+        //q = is a point on the tubes surface
+        //pa + v*t is the tube's ray and r is the tube's radius
+        //(q - pa - (va,q - pa)va)^2 - r^2 = 0
+        //
+        //p+vt is the intersecting ray
+        //substituting q = p+v*t :
+        //(p - pa + vt - (va,p - pa + v*t)va)2 - r2 = 0
+        //
+        //we reduce the equation to a quadratic equation
+        //At^2 + Bt + C = 2
+        //
+        //where A B and C are:
+        //A = (v - (v,va)va)^2
+        //B = 2(v - (v,va)va, Δp - (Δp,va)va)
+        //C = (Δp - (Δp,va)va)^2 - r^2
+        // and Δp = p - pa
+
+
+        Vector rayDir = ray.getDir();
+        Point p1 = ray.getP0();
+        Point pNil = this.axisRay.getP0();
+        Vector dir = this.axisRay.getDir();
+        Vector deltaP = p1.subtract(pNil);
+        double r = this.radius;
+
+        double scale = rayDir.dotProduct(dir);
+        Vector v, delPvava;
+        if (scale == 0)
+            v = rayDir;
+        else
+            v = rayDir.subtract(dir.scale(scale));
+
+        double deltapva = deltaP.dotProduct(dir);
+        if(deltapva == 0)
+            delPvava = deltaP;
+        else
+            delPvava = deltaP.subtract(dir.scale(deltapva));
+
+        double A = v.dotProduct(v);
+        double B = 2 * v.dotProduct(delPvava);
+        double C = delPvava.dotProduct(delPvava) - r * r;
+        double t1 = 0;
+        double t2 = 0;
+        double delta = B * B - 4 * A * C;
+        if (delta < 0)
+            return null;
+        if (delta == 0)
+        {
+            t1 = -B / (2 * A);
+            if (t1 < 0)
+                return null;
+            else
+                return List.of(ray.getPoint(t1));
+        }
+        t1 = (-B + Math.sqrt(delta)) / (2 * A);
+        t2 = (-B - Math.sqrt(delta)) / (2 * A);
+        if (t1 < 0 && t2 < 0)
+            return null;
+        else if (t1 < 0)
+            return List.of(ray.getPoint(t2));
+
+        else if (t2 < 0)
+            return List.of(ray.getPoint(t1));
+        else
+            return List.of(ray.getPoint(t1), ray.getPoint(t2));
+
     }
 }

@@ -82,7 +82,7 @@ public class Plane implements Geometry {
         if (t <= 0)
             return null;
 
-        Point P = ray.getP0().add(ray.getDir().scale(t));
+        Point P = ray.getPoint(t);
         return List.of(P);
     }
 }
