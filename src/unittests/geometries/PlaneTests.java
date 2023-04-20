@@ -40,7 +40,7 @@ public class PlaneTests {
      * Test method for {@link geometries.Plane#findIntersections(primitives.Ray)}.
      */
     @Test
-    void testFindIntsersections() {
+    void testFindIntersections() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray intersects but not orthogonal to plane
         Plane plane = new Plane(new Point(0,0,0), new Vector(0,0,1));
