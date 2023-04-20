@@ -18,8 +18,14 @@ public class Geometries implements Intersectable {
 
     }
 
-    public void add(Intersectable... geometries)
+    public void add(Intersectable... geometries1)
     {
+        for (var i:
+                geometries1) {
+            geometries.add(i);
+        }
+
+
     }
 
     public List<Point> findIntersections(Ray ray)

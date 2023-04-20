@@ -36,11 +36,11 @@ class GeometriesTests {
                 "no Intersections");
 
         // TC03: one shape is cut out
-        Ray ray = new Ray(new Point(-2, -2, 6), new Vector(-1, -1, 0));
-        assertEquals(1, geometries.findIntersections(ray).size(), "the point is not in the polygon");
+        Ray ray = new Ray(new Point(-1, -1, 4), new Vector(-1, -1, 0));
+        assertEquals(1, geometries.findIntersections(ray).size(), "");
 
         // TC04: part of the shapes is cut out
-         ray = new Ray(new Point(0, 0, 6), new Vector(-1, -1, 0));
+         ray = new Ray(new Point(0, 0, 4), new Vector(-1, -1, 0));
         assertEquals(2, geometries.findIntersections(ray).size(), "part of the shapes is cut out");
 
 
