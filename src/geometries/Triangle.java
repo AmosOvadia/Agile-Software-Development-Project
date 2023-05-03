@@ -53,7 +53,7 @@ public class Triangle extends Polygon {
         }
 
         //if the dotproduct of the vectors are negative => the vectors are of different signs and the point is outside the triangle
-        return (alignZero(crossABAP.dotProduct(crossABAP)) > 0) && (alignZero(crossBCBP.dotProduct(crossCACP)) > 0);
+        return (alignZero(crossABAP.dotProduct(crossBCBP)) > 0) && (alignZero(crossBCBP.dotProduct(crossCACP)) > 0);
     }
 
         /*

@@ -40,6 +40,9 @@ public class TriangleTests {
         point = new Point(0, 0, 0);
         assertFalse(triangle.PointInTriangle(point), "the point is in the triangle");
 
+        Triangle tri = new Triangle( new Point(0,7,0),new Point(2,7,0.5),new Point(1,8,4));
+        Point rr = new Point(1.0,6.8,-0.18);
+        assertFalse(tri.PointInTriangle(rr), "the point is in the triangle");
     }
 
     @Test
@@ -72,5 +75,12 @@ public class TriangleTests {
         // TC12: point is on edge's continuation
         ray = new Ray(new Point(0,-1,0), new Vector(0,-1,0));
         assertNull(triangle.findIntersections(ray), "the point is in the triangle");
+
+
+        Triangle tri = new Triangle( new Point(0,7,0),new Point(2,7,0.5),new Point(1,8,4));
+        Ray rr = new Ray(new Point(1,1,1), new Vector(0,5,-1));
+        assertNull(tri.findIntersections(rr), "the point is in the triangle");
+
+
     }
 }
