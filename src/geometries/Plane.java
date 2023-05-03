@@ -52,7 +52,7 @@ public class Plane implements Geometry {
     }
 
     /**
-     * get the normal of the plain
+     * get the normal of the plane
      * @return Vector
      */
 

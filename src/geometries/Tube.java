@@ -72,36 +72,57 @@ public class Tube extends RadialGeometry{
         // and Δp = p - pa
 
 
+        //va
+        Vector dir = this.axisRay.getDir();
         //v
         Vector rayDir = ray.getDir();
+        try // if the two vectors are parallel - there are no intersections
+        {
+            dir.crossProduct(rayDir);
+        }
+        catch (IllegalArgumentException e)
+        {
+            return null;
+        }
         //p
         Point p1 = ray.getP0();
         //pa
         Point pNil = this.axisRay.getP0();
-        //va
-        Vector dir = this.axisRay.getDir();
         //Δp
-        Vector deltaP = p1.subtract(pNil);
+        Vector deltaP, v, delPvava;
 
-        double r = this.radius;
+
+        double r, deltapva;
 
         double scale = rayDir.dotProduct(dir);//(v,va)
-        Vector v, delPvava;
         if (isZero(scale))
             v = rayDir;
         else
             v = rayDir.subtract(dir.scale(scale));
+        r = this.radius;
 
-        //
-        double deltapva = deltaP.dotProduct(dir);
-        if(isZero(deltapva))
-            delPvava = deltaP;
-        else
-            delPvava = deltaP.subtract(dir.scale(deltapva));
+        double A, B, C;
 
-        double A = v.dotProduct(v);
-        double B = 2 * v.dotProduct(delPvava);
-        double C = delPvava.dotProduct(delPvava) - r * r;
+        try
+        {
+            deltaP = p1.subtract(pNil);
+
+            //
+            deltapva = deltaP.dotProduct(dir);
+            if(isZero(deltapva))
+                delPvava = deltaP;
+            else
+                delPvava = deltaP.subtract(dir.scale(deltapva));
+            B = 2 * v.dotProduct(delPvava);
+            C = delPvava.dotProduct(delPvava) - r * r;
+        }
+        catch (IllegalArgumentException e)
+        {
+            B = 0;
+            C = - r * r;
+        }
+
+        A = v.dotProduct(v);
         double t1 = 0;
         double t2 = 0;
         double delta = B * B - 4 * A * C;
