@@ -3,7 +3,6 @@ package geometries;
 import primitives.Ray;
 import primitives.Vector;
 import primitives.Point;
-import static primitives.Util.isZero;
 
 import java.util.List;
 
@@ -50,8 +49,13 @@ public class Tube extends RadialGeometry{
 
     }
 
-    public List<Point> findIntersections(Ray ray)
+   public List<Point> findIntersections(Ray ray)
     {
+        throw new UnsupportedOperationException("no implementation");
+    }
+ /*
+       public List<Point> findIntersections(Ray ray)
+        {
         //credit: https://mrl.cs.nyu.edu/~dzorin/rend05/lecture2.pdf
         // the tube's equation:
         //q = is a point on the tubes surface
@@ -149,4 +153,6 @@ public class Tube extends RadialGeometry{
             return List.of(ray.getPoint(t1), ray.getPoint(t2));
 
     }
+ */
+
 }

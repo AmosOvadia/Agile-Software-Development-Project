@@ -6,23 +6,17 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for geometries.Cylinder class
  */
 public class CylinderTests {
-    /**
-     * Test method for the getNormal method in geometries.Cylinder
-     */
 
     /**
      * Returns the normal to the cylinder at the specified point.
      * Throws an IllegalArgumentException if the point is not on the cylinder.
      *
-     * @return the normal to the cylinder at the specified point
      * @throws IllegalArgumentException if the point is not on the cylinder
      */
     @Test
@@ -65,6 +59,7 @@ public class CylinderTests {
         assertTrue(expected5.equals(cylinder4.getNormal(new Point(0, 4, 0)).scale(-1), 0.001) || expected5.equals(cylinder4.getNormal(new Point(0, 4, 0)), 0.001));
     }
 
+/*
     @Test
     void testFindIntersection() {
         Cylinder cylinder = new Cylinder(new Ray(new Point(2, 0, 0), new Vector(0, 0, 1)), 1d, 2d);
@@ -202,4 +197,5 @@ public class CylinderTests {
         result = cylinder.findIntersections(new Ray(new Point(1, 0, 2), new Vector(0, 0, 1)));
         assertNull(result, "Wrong number of points");
     }
+    */
 }

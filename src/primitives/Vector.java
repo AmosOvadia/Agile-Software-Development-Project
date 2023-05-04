@@ -2,6 +2,7 @@ package primitives;
 
 
 import static java.lang.Math.sqrt;
+import static primitives.Util.alignZero;
 
 
 /**
@@ -83,7 +84,7 @@ public class Vector extends Point{
         double d2 = this.xyz.d3 * vVal.xyz.d1 - this.xyz.d1 * vVal.xyz.d3;
         double d3 = this.xyz.d1 * vVal.xyz.d2 - this.xyz.d2 * vVal.xyz.d1;
 
-        return new Vector(d1,d2,d3);
+        return new Vector(alignZero(d1),alignZero(d2),alignZero(d3));
     }
 
     /**

@@ -1,7 +1,6 @@
 package primitives;
 
 import static java.lang.Math.sqrt;
-import static primitives.Util.isZero;
 
 /**
  * a class representing a point in space
@@ -11,6 +10,8 @@ public class Point {
      * axes of the point
      */
     protected Double3 xyz;
+
+    public static final Point ZERO = new Point(0,0,0);
 
     public Double3 getXyz() {
         return xyz;

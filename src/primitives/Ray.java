@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 /**
  * class that represents a ray in space
  */
@@ -55,6 +57,25 @@ public class    Ray {
     public Point getPoint(double t)
     {
         return this.p0.add(this.dir.scale(t));
+    }
+
+    /**
+     * finds the closest point to the ray's p0
+     * @param points
+     * @return a point
+     */
+    public Point findClosestPoint(List<Point> points) {
+
+        Point closestPoint = null;
+        double minDistance = Double.MAX_VALUE;
+        for (Point point : points) { //iterates over the list of points
+            double distance = this.p0.distance(point);
+            if (distance < minDistance) {//if distance is smaller than the minimum distance we update
+                minDistance = distance;
+                closestPoint = point;
+            }
+        }
+        return closestPoint;
     }
 
 }

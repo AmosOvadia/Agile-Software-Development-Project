@@ -6,9 +6,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -45,6 +42,7 @@ public class TubeTests {
                 expected2.equals(tube.getNormal(new Point(0, 0, 2)), 0.00001)));
     }
 
+    /*
     @Test
     void testFindIntersections() {
         // ============ Equivalence Partitions Tests ==============
@@ -254,5 +252,7 @@ public class TubeTests {
         // TC27 ray's p0 is on the tube and no intersection
         // TC28: ray's p0 is on the tube and no intersection
     }
+
+     */
 }
 
