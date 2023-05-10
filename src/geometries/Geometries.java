@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     private List<Intersectable> geometries;
     public Geometries() {
@@ -34,13 +34,14 @@ public class Geometries implements Intersectable {
      * @param ray The ray to intersect with.
      * @return
      */
-    public List<Point> findIntersections(Ray ray)
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
     {
-        List<Point> points = null;
+        List<GeoPoint> points = null;
         //iterates over the list of geometries and finds the intersected points
         for(Intersectable obj : geometries)
         {
-            List<Point> lst = obj.findIntersections(ray);
+            List<GeoPoint> lst = obj.findGeoIntersections(ray);
             if(lst != null)//if there are intersected points we add them to the list
             {
                 if(points == null)//if the list is empty we create a new list

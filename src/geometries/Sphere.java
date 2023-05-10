@@ -32,8 +32,8 @@ public class Sphere extends RadialGeometry{
     @Override
     public Vector getNormal(Point p) {
         Vector result = p.subtract(center);
-        if(!isZero(result.length() - radius))
-           throw new IllegalArgumentException("the point is not on the sphere");
+        //if(!isZero(result.length() - radius))
+        // throw new IllegalArgumentException("the point is not on the sphere");
        return result.normalize();
     }
 
@@ -42,7 +42,8 @@ public class Sphere extends RadialGeometry{
      * @param ray The ray to intersect with.
      * @return A list of points where the ray intersects the sphere.
      */
-    public List<Point> findIntersections(Ray ray) {
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Vector u;
         try
         {
@@ -50,7 +51,7 @@ public class Sphere extends RadialGeometry{
         }
         catch (IllegalArgumentException e)
         {
-            return List.of(ray.getP0().add(ray.getDir().scale(radius)));
+            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(radius))));
         }
 
         double tm = u.dotProduct(ray.getDir());
@@ -71,19 +72,20 @@ public class Sphere extends RadialGeometry{
         if (t1 <=0)
         {
             p2 = ray.getPoint(t2);
-            return List.of(p2);
+            return List.of(new GeoPoint(this,p2));
         }
 
         if(t2 <= 0)
         {
             p1 = ray.getPoint(t1);
-            return List.of(p1);
+            return List.of(new GeoPoint(this,p1));
         }
 
         p1 = ray.getPoint(t1);
         p2 = ray.getPoint(t2);
 
-        return List.of(p1,p2);
+        return List.of(new GeoPoint(this,p1),new GeoPoint(this,p2));
+
 
     }
 }

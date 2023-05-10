@@ -5,6 +5,7 @@ import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -86,7 +87,8 @@ public class Triangle extends Polygon {
      * @param ray The ray to intersect with.
      * @return a list of the intersected points (one)
      */
-    public List<Point> findIntersections(Ray ray)
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
     {
         //get the intersection point with the plane that the triangle is on
         Plane plane1 = new Plane(this.vertices.get(0), this.vertices.get(1), this.vertices.get(2));
@@ -95,7 +97,11 @@ public class Triangle extends Polygon {
         //check if the point is in the triangle
         if (list != null) {
             if (PointInTriangle(list.get(0))) {
-                return list;
+                List<GeoPoint> gp = new ArrayList<>(list.size());
+                for (var p: list) {
+                    gp.add(new GeoPoint(this,p));
+                }
+                return gp;
             }
         }
         return null;

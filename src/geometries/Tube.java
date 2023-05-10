@@ -49,9 +49,15 @@ public class Tube extends RadialGeometry{
 
     }
 
+
    public List<Point> findIntersections(Ray ray)
     {
         throw new UnsupportedOperationException("no implementation");
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        return null;
     }
  /*
        public List<Point> findIntersections(Ray ray)

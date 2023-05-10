@@ -2,6 +2,7 @@ package geometries;
 
 import static primitives.Util.isZero;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.Point;
@@ -15,7 +16,7 @@ import static primitives.Util.*;
  *
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
@@ -146,14 +147,19 @@ public class Polygon implements Geometry {
      * @param ray The ray to intersect with.
      * @return A list of the intersection point of the ray with the polygon.
      */
-    public List<Point> findIntersections(Ray ray) {
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 //find the intersections of the ray with the plane
         List<Point> intersections = plane.findIntersections(ray);
         //if there are no intersections with the plane, return null
         if (intersections != null) {
             //if the point is inside the polygon, return the intersection point
             if (PointInPolygon(intersections.get(0))) {
-                return intersections;
+                List<GeoPoint> gp = new ArrayList<>(intersections.size());
+                for (var p: intersections) {
+                    gp.add(new GeoPoint(this,p));
+                }
+                return gp;
             }
         }
         //if the point is not inside the polygon, return null

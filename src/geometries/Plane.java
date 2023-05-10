@@ -12,7 +12,7 @@ import static primitives.Util.*;
 /**
  * represents a geometrical plane in space
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     /**
      * the point in the plane
      */
@@ -65,7 +65,8 @@ public class Plane implements Geometry {
      * finds the intersections of a ray with the plane
      * @return List<Point>
      */
-    public List<Point> findIntersections(Ray ray)
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
     {
         //if the ray is parallel to the plane
         if(isZero(ray.getDir().dotProduct(normal)))
@@ -82,7 +83,7 @@ public class Plane implements Geometry {
         if (t <= 0)
             return null;
 
-        Point P = ray.getPoint(t);
-        return List.of(P);
+        Point p = ray.getPoint(t);
+        return List.of(new GeoPoint(this,p));
     }
 }
