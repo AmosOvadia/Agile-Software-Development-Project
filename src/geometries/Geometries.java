@@ -8,9 +8,16 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * geometries class for encapsulating multiple geometric objects
+ */
 public class Geometries extends Intersectable {
 
     private List<Intersectable> geometries;
+
+    /**
+     * constructor for Geometries class
+     */
     public Geometries() {
         geometries = new LinkedList<>();
     }

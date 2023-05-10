@@ -21,12 +21,17 @@ public abstract class Intersectable {
 
 
     /**
-     *
+     * A class that represents a point on a geometry.
      */
     public static class GeoPoint {
         public Geometry geometry;
         public Point point;
 
+        /**
+         * constructor for GeoPoint
+         * @param geometry the geometry
+         * @param point the point
+         */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
             this.point = point;
@@ -51,7 +56,11 @@ public abstract class Intersectable {
 
     }
 
-
+    /**
+     * finds the intersected points of a ray in the geometry
+     * @param ray The ray to intersect with
+     * @return A list of points where the ray intersects the geometry
+     */
     public List<GeoPoint> findGeoIntersections(Ray ray)
     {
           return findGeoIntersectionsHelper(ray);

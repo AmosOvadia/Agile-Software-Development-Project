@@ -4,14 +4,17 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * a class that represents a spot light
+ */
 public class SpotLight extends PointLight{
     private Vector direction;
 
     /**
      * ctor for spotLight
-     * @param color
-     * @param location
-     * @param direction
+     * @param color color
+     * @param location location
+     * @param direction direction
      */
     public SpotLight(Color color, Point location, Vector direction) {
         super(color,location);

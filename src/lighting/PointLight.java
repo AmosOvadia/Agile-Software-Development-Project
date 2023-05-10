@@ -4,6 +4,9 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * a class that represents a point light
+ */
 public class PointLight extends Light implements LightSource{
     private Point position;
     private double kC = 1;
@@ -12,24 +15,39 @@ public class PointLight extends Light implements LightSource{
 
     /**
      * ctor for pointLight
-     * @param intesity
-     * @param position
+     * @param intensity intensity
+     * @param position position
      */
-    public PointLight(Color intesity, Point position) {
-        super(intesity);
+    public PointLight(Color intensity, Point position) {
+        super(intensity);
         this.position = position;
     }
 
+    /**
+     * setter for kC
+     * @param kC kC
+     * @return PointLight
+     */
     public PointLight setKc(double kC) {
         this.kC = kC;
         return  this;
     }
 
+    /**
+     * setter for kL
+     * @param kL kL
+     * @return PointLight
+     */
     public PointLight setKl(double kL) {
         this.kL = kL;
         return  this;
     }
 
+    /**
+     * setter for kQ
+     * @param kQ kQ
+     * @return PointLight
+     */
     public PointLight setKq(double kQ) {
         this.kQ = kQ;
         return  this;
@@ -41,6 +59,7 @@ public class PointLight extends Light implements LightSource{
         double d = p.subtract(position).length();
         return i0.scale(1/( (kC+(d*kL)+(kQ*d*d) )));
     }
+
     public Vector getL(Point p)
     {
         try {
@@ -51,7 +70,4 @@ public class PointLight extends Light implements LightSource{
             throw new IllegalArgumentException("light is on the geometry ");
         }
     }
-
-
-
 }

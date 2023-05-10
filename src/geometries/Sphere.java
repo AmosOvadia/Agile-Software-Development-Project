@@ -17,8 +17,11 @@ public class Sphere extends RadialGeometry{
      */
     private Point center;
 
-
-
+    /**
+     * constructor for the sphere
+     * @param p the center point
+     * @param r the radius of the sphere
+     */
     public Sphere(Point p,double r)
     {
         if(r <= 0)

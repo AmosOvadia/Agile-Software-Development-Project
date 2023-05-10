@@ -20,8 +20,8 @@ public class Camera {
 
     /**
      * setter for image writer
-     * @param imageWriter
-     * @return
+     * @param imageWriter image writer
+     * @return Camera
      */
     public Camera setImageWriter(ImageWriter imageWriter) {
         this.imageWriter = imageWriter;
@@ -30,8 +30,8 @@ public class Camera {
 
     /**
      * setter for ray tracer base
-     * @param rayTracerBase
-     * @return
+     * @param rayTracerBase ray tracer base
+     * @return Camera
      */
     public Camera setRayTracer(RayTracerBase rayTracerBase) {
         this.rayTracerBase = rayTracerBase;
@@ -40,9 +40,9 @@ public class Camera {
 
     /**
      * constructor for camera class
-     * @param loc
-     * @param to
-     * @param up
+     * @param loc location
+     * @param to to vector
+     * @param up up vector
      */
     public Camera(Point loc, Vector to,Vector up)
     {
@@ -58,9 +58,9 @@ public class Camera {
 
     /**
      * setter for view plane size and distance
-     * @param newWidth
-     * @param newHeight
-     * @return
+     * @param newWidth width
+     * @param newHeight height
+     * @return Camera
      */
     public Camera setVPSize(double newWidth, double newHeight)
     {
@@ -71,8 +71,8 @@ public class Camera {
 
     /**
      * setter for view plane distance
-     * @param newDistance
-     * @return
+     * @param newDistance distance
+     * @return Camera
      */
     public Camera setVPDistance(double newDistance)
     {
@@ -84,11 +84,11 @@ public class Camera {
 
     /**
      * constructs a ray through the view plane
-     * @param nX
-     * @param nY
-     * @param j
-     * @param i
-     * @return
+     * @param nX number of pixels in x axis
+     * @param nY number of pixels in y axis
+     * @param j pixel in x axis
+     * @param i pixel in y axis
+     * @return Ray
      */
     public Ray constructRay(int nX, int nY, int j, int i)
     {
@@ -127,7 +127,7 @@ public class Camera {
 
     /**
      * getter for location
-     * @return
+     * @return Point
      */
     public Point getLocation() {
         return location;
@@ -135,7 +135,7 @@ public class Camera {
 
     /**
      * getter for vTo
-     * @return
+     * @return Vector
      */
     public Vector getvTo() {
         return vTo;
@@ -143,7 +143,7 @@ public class Camera {
 
     /**
      * getter for vUp
-     * @return
+     * @return Vector
      */
     public Vector getvUp() {
         return vUp;
@@ -151,7 +151,7 @@ public class Camera {
 
     /**
      * getter for vRight
-     * @return
+     * @return Vector
      */
     public Vector getvRight() {
         return vRight;
@@ -159,7 +159,7 @@ public class Camera {
 
     /**
      * getter for height
-     * @return
+     * @return double
      */
     public double getHeight() {
         return height;
@@ -167,7 +167,7 @@ public class Camera {
 
     /**
      * getter for width
-     * @return
+     * @return double
      */
     public double getWidth() {
         return width;
@@ -175,7 +175,7 @@ public class Camera {
 
     /**
      * getter for distance
-     * @return
+     * @return double
      */
     public double getDistance() {
         return distance;
@@ -208,8 +208,8 @@ public class Camera {
 
     /**
      * print a grid on the view plane
-     * @param interval
-     * @param color
+     * @param interval interval length between lines
+     * @param color color of the lines
      */
     public void printGrid(int interval, Color color) {
 

@@ -17,8 +17,8 @@ public class Tube extends RadialGeometry{
 
     /**
      * constructor for the tube
-     * @param a
-     * @param r
+     * @param a the axis ray
+     * @param r the radius of the tube
      */
     public  Tube(Ray a, double r)
     {
@@ -49,12 +49,22 @@ public class Tube extends RadialGeometry{
 
     }
 
-
+    /**
+     * Find the intersections of the ray with the tube.
+     * @param ray The ray to intersect with.
+     * @return A list of points where the ray intersects the tube.
+     */
    public List<Point> findIntersections(Ray ray)
     {
         throw new UnsupportedOperationException("no implementation");
     }
 
+    /**
+     * not implemented
+     * Find the intersections of the ray with the tube.
+     * @param ray The ray to intersect with.
+     * @return A list of geo points where the ray intersects the tube.
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return null;

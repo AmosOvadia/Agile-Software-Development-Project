@@ -3,24 +3,24 @@ package lighting;
 import primitives.Color;
 
 /**
- *Light CLASSSSSS
+ * abstract class for all the lights
  */
 abstract class Light {
-    private Color intesity;
+    private Color intensity;
 
     /**
-     * to get the intesity
+     * to get the intensity
      * @return Color
      */
     public Color getIntesity() {
-        return intesity;
+        return intensity;
     }
 
     /**
-     * ctor
-     * @param intesity
+     * ctor for Light
+     * @param intensity intensity
      */
-    protected Light(Color intesity) {
-        this.intesity = intesity;
+    protected Light(Color intensity) {
+        this.intensity = intensity;
     }
 }

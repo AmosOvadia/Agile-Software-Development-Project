@@ -17,7 +17,7 @@ public class RayTracerBasic extends RayTracerBase{
 
     /**
      * constructor for RayTracerBasic class
-     * @param scene
+     * @param scene scene
      */
     public RayTracerBasic(Scene scene)
     {
@@ -26,8 +26,8 @@ public class RayTracerBasic extends RayTracerBase{
 
     /**
      * calculate the color with intensity of the point
-     * @param intersection
-     * @param ray
+     * @param intersection the point
+     * @param ray the ray
      * @return the color of the point
      */
     private Color calcColor(GeoPoint intersection, Ray ray) {
@@ -51,6 +51,15 @@ public class RayTracerBasic extends RayTracerBase{
         return color;
     }
 
+    /**
+     * calculate the specular of the point
+     * @param material the material of the geometry
+     * @param n the normal of the geometry
+     * @param l the vector from the light source to the point
+     * @param nl the dot product of n and l
+     * @param v the vector of the ray
+     * @return Double3 the specular of the point
+     */
     private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
         double num = 0 ;
         try {
@@ -69,6 +78,12 @@ public class RayTracerBasic extends RayTracerBase{
       }
     }
 
+    /**
+     * calculate the diffusive of the point
+     * @param material the material of the geometry
+     * @param nl the dot product of n and l
+     * @return Double3 the diffusive of the point
+     */
     private Double3 calcDiffusive(Material material, double nl) {
 
         try {
@@ -85,7 +100,7 @@ public class RayTracerBasic extends RayTracerBase{
 
     /**
      * trace ray
-     * @param ray
+     * @param ray the ray
      * @return the color that the ray hits
      */
     public Color traceRay(Ray ray) {

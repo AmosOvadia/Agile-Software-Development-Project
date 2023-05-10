@@ -63,18 +63,39 @@ public class Point {
     @Override
     public  String toString() {return "point: " + xyz.toString();}
 
+    /**
+     * adds a vector to a point
+     * @param vec the vector
+     * @return the result point
+     */
     public Point add(Vector vec) {
         return new Point(this.xyz.add(vec.xyz));
 
     }
+
+    /**
+     * subtracts a vector from a point
+     * @param p the vector
+     * @return Vector
+     */
     public Vector subtract(Point p) {
         return new Vector(this.xyz.subtract(p.xyz));
     }
 
+    /**
+     * calculates the distance between two points
+     * @param p the other point
+     * @return double
+     */
     public double distance(Point p) {
         return sqrt(this.distanceSquared(p));
     }
 
+    /**
+     * calculates the distance squared between two points
+     * @param p the other point
+     * @return double
+     */
     public double distanceSquared(Point p) {
         Double3 p1 = this.xyz;
         Double3 p2 = p.xyz;

@@ -65,7 +65,7 @@ public class    Ray {
 
     /**
      * finds the closest point to the ray's p0
-     * @param points
+     * @param points list of points
      * @return a point
      */
     public Point findClosestPoint(List<Point> points) {
@@ -75,7 +75,7 @@ public class    Ray {
 
     /**
      * finds the closest point to the ray's p0
-     * @param intersections
+     * @param intersections list of points
      * @return GeoPoint
      */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections)

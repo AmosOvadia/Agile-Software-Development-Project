@@ -88,7 +88,7 @@ public class Vector extends Point{
     }
 
     /**
-     *
+     * calculates the distance between two vectors
      * @return the length of the vector squared
      */
     public double lengthSquared() {
@@ -96,7 +96,7 @@ public class Vector extends Point{
     }
 
     /**
-     *
+     * calculates the distance between two vectors
      * @return the length of the vector
      */
     public double length() {

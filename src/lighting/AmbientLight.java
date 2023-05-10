@@ -3,12 +3,15 @@ package lighting;
 import primitives.Color;
 import primitives.Double3;
 
+/**
+ * a class that represents an ambient light
+ */
 public class AmbientLight extends Light {
 
     /**
-     * ctor
-     * @param Ia
-     * @param Ka
+     * constructor for AmbientLight class
+     * @param Ia intensity
+     * @param Ka attenuation factor
      */
     public AmbientLight(Color Ia, Double3 Ka) {
         super(new Color(
@@ -25,6 +28,10 @@ public class AmbientLight extends Light {
 
     public static AmbientLight NONE = new AmbientLight(Color.BLACK, Double3.ZERO);
 
+    /**
+     * getter for intensity
+     * @return Color
+     */
     public Color getIntensity() {
         return super.getIntesity();
     }
