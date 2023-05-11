@@ -177,7 +177,7 @@ public class LightsTests {
    }
 
    /** Produce a picture of a sphere lighted by a narrow spotlight */
-/*   @Test
+  @Test
    public void sphereSpotSharp() {
       scene1.geometries.add(sphere);
       scene1.lights
@@ -192,7 +192,7 @@ public class LightsTests {
    }
 
    /** Produce a picture of two triangles lighted by a narrow spotlight */
-/*   @Test
+   @Test
    public void trianglesSpotSharp() {
       scene2.geometries.add(triangle1, triangle2);
       scene2.lights.add(new SpotLight(trianglesLightColor, trianglesLightPosition, trianglesLightDirection)
@@ -204,5 +204,5 @@ public class LightsTests {
               .renderImage(); //
       camera2.writeToImage(); //
    }
-*/
+
 }
