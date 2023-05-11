@@ -10,6 +10,8 @@ import primitives.*;
 import renderer.*;
 import scene.Scene;
 
+import java.util.List;
+
 /** Test rendering a basic image
  * @author Dan */
 public class LightsTests {
@@ -145,20 +147,34 @@ public class LightsTests {
    }
 
    @Test
-   public void sphereManyLights() {
+   public void sphereMultiLights() {
       scene1.geometries.add(sphere);
-      scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition, new Vector(1, 1, -0.5))
-              .setKl(0.001).setKq(0.0001));
+      PointLight pointLight =new SpotLight(sphereLightColor, new Point(-50,-50,0), new Vector(1, 1, -0.5)).setKl(0.001).setKq(0.001);
+      PointLight spotLight = new PointLight(new Color(RED),new Point(50,-70,-20)).setKl(0.00001).setKq(0.00002);
+      DirectionalLight dlight = new DirectionalLight(sphereLightColor, new Vector(1, -2, 1));
+      scene1.lights.addAll(List.of(pointLight,spotLight,dlight));
 
-      ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
+      ImageWriter imageWriter = new ImageWriter("multiLightSphere", 500, 500);
       camera1.setImageWriter(imageWriter) //
               .setRayTracer(new RayTracerBasic(scene1)) //
               .renderImage(); //
       camera1.writeToImage(); //
    }
 
-
-
+   @Test
+   public void testTriangleMultiLight() {
+      scene2.geometries.add(triangle1, triangle2);
+      PointLight spotLight = new SpotLight(trianglesLightColor, new Point(-50, -50, -100), trianglesLightDirection)
+              .setKl(0.001).setKq(0.0001);
+      PointLight pointLight = new PointLight(new Color(BLUE),new Point(-50,50,50));
+      DirectionalLight dLight = new DirectionalLight(new Color(RED),new Vector(-1,1,-1));
+      scene2.lights.addAll(List.of(dLight,spotLight, pointLight));
+      ImageWriter imageWriter = new ImageWriter("mulitLightTriangles", 500, 500);
+      camera2.setImageWriter(imageWriter) //
+              .setRayTracer(new RayTracerBasic(scene2)) //
+              .renderImage(); //
+      camera2.writeToImage(); //
+   }
 
    /** Produce a picture of a sphere lighted by a narrow spotlight */
 /*   @Test
