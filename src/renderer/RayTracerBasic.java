@@ -15,6 +15,7 @@ import static primitives.Util.alignZero;
  */
 public class RayTracerBasic extends RayTracerBase{
 
+    private static final double DELTA = 0.1;
     /**
      * constructor for RayTracerBasic class
      * @param scene scene
@@ -43,9 +44,11 @@ public class RayTracerBasic extends RayTracerBase{
             Vector l = lightSource.getL(gp.point);
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sing(nv)
-                Color iL = lightSource.getIntensity(gp.point);
-                color = color.add(iL.scale(calcDiffusive(material, Math.abs(nl))),
-                        iL.scale(calcSpecular(material, n, l, nl, v)));
+                if (unshaded(gp, lightSource, l, n, nl)) {
+                    Color iL = lightSource.getIntensity(gp.point);
+                    color = color.add(iL.scale(calcDiffusive(material, Math.abs(nl))),
+                            iL.scale(calcSpecular(material, n, l, nl, v)));
+                }
             }
         }
         return color;
@@ -111,4 +114,34 @@ public class RayTracerBasic extends RayTracerBase{
         return calcColor(closestPoint,ray);
     }
 
+    /**
+     * trace ray with shadow
+     * @param gp the point
+     * @param light the light source
+     * @param l the vector from the light source to the point
+     * @param n the normal of the geometry
+     * @param nl the dot product of n and l
+     * @return the color that the ray hits
+     */
+    private boolean unshaded(GeoPoint gp, LightSource light, Vector l, Vector n, double nl)
+    {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
+        Point point = gp.point.add(epsVector);
+        Ray lightRay = new Ray(point, lightDirection);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(point));
+        return intersections == null;
+        /*
+        if (intersections == null) return true;
+        //if there are points in the intersections list that are closer to the point
+        //than light source – return false
+        for(GeoPoint geoPoint : intersections)
+        {
+            if(geoPoint.point.distance(gp.point) < light.getDistance(gp.point))
+                return false;
+        }
+        //otherwise – return true
+        return true;
+        */
+    }
 }

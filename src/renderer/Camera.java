@@ -184,7 +184,7 @@ public class Camera {
     /**
      * renders the image by the ray tracer
      */
-    public void renderImage()
+    public Camera renderImage()
     {
         if(location == null || vTo == null || vUp == null || vRight == null || height == 0 || width == 0 || distance == 0 || imageWriter == null || rayTracerBase == null)
         {
@@ -204,6 +204,7 @@ public class Camera {
                 imageWriter.writePixel(i,j,color);
             }
         }
+        return this;
     }
 
     /**

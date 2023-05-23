@@ -70,4 +70,13 @@ public class PointLight extends Light implements LightSource{
             throw new IllegalArgumentException("light is on the geometry ");
         }
     }
+
+    /**
+     * gets the distance from the light source to the point on the geometry
+     * @param point point
+     * @return double
+     */
+    public double getDistance(Point point) {
+        return position.distance(point);
+    }
 }

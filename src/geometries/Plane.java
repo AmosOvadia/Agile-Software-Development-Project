@@ -66,9 +66,9 @@ public class Plane extends Geometry {
      * @return List<Point>
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance)
     {
-        //if the ray is parallel to the plane
+        //if the ray is parallel to the planmaxDistancee
         if(isZero(ray.getDir().dotProduct(normal)))
             return null;
 
@@ -84,6 +84,6 @@ public class Plane extends Geometry {
             return null;
 
         Point p = ray.getPoint(t);
-        return List.of(new GeoPoint(this,p));
+        return filterIntersections(List.of(new GeoPoint(this,p)), ray, maxDistance);
     }
 }

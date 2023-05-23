@@ -4,6 +4,8 @@ import java.util.List;
 import primitives.Point;
 import primitives.Ray;
 
+import static primitives.Util.alignZero;
+
 /**
  * An interface for all geometries that can be intersected by a ray.
  */
@@ -63,8 +65,34 @@ public abstract class Intersectable {
      */
     public List<GeoPoint> findGeoIntersections(Ray ray)
     {
-          return findGeoIntersectionsHelper(ray);
+          return findGeoIntersectionsHelper(ray, Double.POSITIVE_INFINITY);
     }
-     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 
+    /**
+     *  finds the intersected points of a ray in the geometry with a max distance
+     * @param ray The ray to intersect with
+     * @param maxDistance the max distance
+     * @return A list of points where the ray intersects the geometry
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    /**
+     * finds the intersected points of a ray in the geometry with a max distance
+     * @param ray The ray to intersect with
+     * @param maxDistance the max distance
+     * @return A list of points where the ray intersects the geometry
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
+
+    //protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    protected final List<GeoPoint> filterIntersections(List<GeoPoint> lst,Ray ray, double maxDistance) {
+
+        if(lst == null)
+            return null;
+        lst =  (maxDistance == Double.POSITIVE_INFINITY) ? lst :  lst.stream().filter(
+                gp -> alignZero(gp.point.distance(ray.getP0()) - maxDistance) <= 0).toList();
+        return (lst.isEmpty()) ? null : lst;
+    }
 }

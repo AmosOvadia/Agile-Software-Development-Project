@@ -88,11 +88,11 @@ public class Triangle extends Polygon {
      * @return a list of the intersected points (one)
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance)
     {
         //get the intersection point with the plane that the triangle is on
         Plane plane1 = new Plane(this.vertices.get(0), this.vertices.get(1), this.vertices.get(2));
-        List<GeoPoint> geoList = plane1.findGeoIntersections(ray);
+        List<GeoPoint> geoList = plane1.findGeoIntersections(ray,maxDistance);
         List<Point> list  = (geoList == null) ? null : geoList.stream().map(gp -> gp.point).toList();
 
         //check if the point is in the triangle

@@ -148,9 +148,9 @@ public class Polygon extends Geometry {
      * @return A list of the intersection point of the ray with the polygon.
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-//find the intersections of the ray with the plane
-        List<GeoPoint> geoList = plane.findGeoIntersections(ray);
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
+        //find the intersections of the ray with the plane
+        List<GeoPoint> geoList = filterIntersections(plane.findGeoIntersections(ray), ray, maxDistance);
         List<Point> intersections  = (geoList == null) ? null : geoList.stream().map(gp -> gp.point).toList();
         //if there are no intersections with the plane, return null
         if (intersections != null) {

@@ -40,5 +40,14 @@ public class DirectionalLight extends Light implements LightSource {
         return  direction;
     }
 
+    /**
+     * gets the distance from the light source to the point on the geometry
+     * @param point point
+     * @return double
+     */
+    public double getDistance(Point point) {
+        return Double.POSITIVE_INFINITY;
+    }
 }
+
 

@@ -46,7 +46,7 @@ public class Sphere extends RadialGeometry{
      * @return A list of points where the ray intersects the sphere.
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
         Vector u;
         try
         {
@@ -54,7 +54,7 @@ public class Sphere extends RadialGeometry{
         }
         catch (IllegalArgumentException e)
         {
-            return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(radius))));
+            return filterIntersections(List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(radius)))), ray,maxDistance);
         }
 
         double tm = u.dotProduct(ray.getDir());
@@ -75,19 +75,19 @@ public class Sphere extends RadialGeometry{
         if (t1 <=0)
         {
             p2 = ray.getPoint(t2);
-            return List.of(new GeoPoint(this,p2));
+            return filterIntersections(List.of(new GeoPoint(this,p2)), ray, maxDistance);
         }
 
         if(t2 <= 0)
         {
             p1 = ray.getPoint(t1);
-            return List.of(new GeoPoint(this,p1));
+            return filterIntersections(List.of(new GeoPoint(this,p1)), ray, maxDistance);
         }
 
         p1 = ray.getPoint(t1);
         p2 = ray.getPoint(t2);
 
-        return List.of(new GeoPoint(this,p1),new GeoPoint(this,p2));
+        return filterIntersections(List.of(new GeoPoint(this,p1),new GeoPoint(this,p2)), ray, maxDistance);
 
 
     }
