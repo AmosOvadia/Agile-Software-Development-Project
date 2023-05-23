@@ -150,7 +150,8 @@ public class Polygon extends Geometry {
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 //find the intersections of the ray with the plane
-        List<Point> intersections = plane.findIntersections(ray);
+        List<GeoPoint> geoList = plane.findGeoIntersections(ray);
+        List<Point> intersections  = (geoList == null) ? null : geoList.stream().map(gp -> gp.point).toList();
         //if there are no intersections with the plane, return null
         if (intersections != null) {
             //if the point is inside the polygon, return the intersection point

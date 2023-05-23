@@ -92,7 +92,8 @@ public class Triangle extends Polygon {
     {
         //get the intersection point with the plane that the triangle is on
         Plane plane1 = new Plane(this.vertices.get(0), this.vertices.get(1), this.vertices.get(2));
-        List<Point> list = plane1.findIntersections(ray);
+        List<GeoPoint> geoList = plane1.findGeoIntersections(ray);
+        List<Point> list  = (geoList == null) ? null : geoList.stream().map(gp -> gp.point).toList();
 
         //check if the point is in the triangle
         if (list != null) {
