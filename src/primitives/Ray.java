@@ -10,6 +10,9 @@ import java.util.List;
  * class that represents a ray in space
  */
 public class    Ray {
+
+    private static final double DELTA = 0.1;
+
     /**
      * represents the point of the ray
      */
@@ -43,6 +46,14 @@ public class    Ray {
         }
         p0 =  new Point(p.xyz);
     }
+
+    public Ray(Point p,Vector v,Vector n)
+    {
+        double nl = n.dotProduct(v);
+        Vector epsVector = n.scale(nl >= 0 ? DELTA : -DELTA);
+        p0 = p.add(epsVector);
+        dir = v.normalize();
+    }
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -67,17 +78,16 @@ public class    Ray {
      * finds the closest point to the ray's p0
      * @param points list of points
      * @return a point
-     */
     public Point findClosestPoint(List<Point> points) {
         return points == null || points.isEmpty() ? null
                 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
 
+     */
     /**
      * finds the closest point to the ray's p0
      * @param intersections list of points
      * @return GeoPoint
-     */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections)
     {
         GeoPoint closestPoint = null;
@@ -91,4 +101,5 @@ public class    Ray {
         }
         return closestPoint;
     }
+     */
 }

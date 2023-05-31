@@ -10,6 +10,9 @@ import static primitives.Util.alignZero;
  * An interface for all geometries that can be intersected by a ray.
  */
 public abstract class Intersectable {
+
+    private static final double DELTA = 0.1;
+
     /**
      * Find the intersections of the ray with the geometry.
      *
@@ -77,6 +80,7 @@ public abstract class Intersectable {
     public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
         return findGeoIntersectionsHelper(ray, maxDistance);
     }
+
 
     /**
      * finds the intersected points of a ray in the geometry with a max distance

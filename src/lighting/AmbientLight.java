@@ -20,6 +20,18 @@ public class AmbientLight extends Light {
             Ia.getColor().getBlue() * Ka.getD3()
             ));
     }
+    /**
+     * constructor for AmbientLight class
+     * @param Ia intensity
+     * @param Ka attenuation factor
+     */
+    public AmbientLight(Color Ia, double Ka) {
+        super(new Color(
+                Ia.getColor().getRed() * Ka,
+                Ia.getColor().getGreen() * Ka,
+                Ia.getColor().getBlue() * Ka
+        ));
+    }
 
 
     //public AmbientLight(double Ka) {

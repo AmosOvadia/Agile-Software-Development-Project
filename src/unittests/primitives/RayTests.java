@@ -17,7 +17,6 @@ public class RayTests {
 
     /**
      * Test method for {@link primitives.Ray#findClosestPoint(List)}.
-     */
     @Test
     void testFindClosestPoint() {
         // ============ Equivalence Partitions Tests ==============
@@ -39,4 +38,6 @@ public class RayTests {
         assertEquals(p3, ray.findClosestPoint(List.of(p1, p2, p3)));
 
     }
+
+     */
 }
