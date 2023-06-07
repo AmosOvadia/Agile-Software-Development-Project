@@ -84,6 +84,10 @@ public class Plane extends Geometry {
             return null;
 
         Point p = ray.getPoint(t);
-        return filterIntersections(List.of(new GeoPoint(this,p)), ray, maxDistance);
+        //if(alignZero(p.distance(ray.getP0()) - maxDistance) <= 0)
+        if(p.distance(ray.getP0()) <= maxDistance)
+
+            return List.of(new GeoPoint(this,p));
+        else return null;
     }
 }

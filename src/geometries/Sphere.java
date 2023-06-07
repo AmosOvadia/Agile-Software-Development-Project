@@ -4,6 +4,7 @@ import primitives.Ray;
 import primitives.Vector;
 import primitives.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static primitives.Util.*;
@@ -47,14 +48,15 @@ public class Sphere extends RadialGeometry{
      */
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
-        Vector u;
+        Vector u = null;
         try
         {
              u = center.subtract(ray.getP0());
         }
         catch (IllegalArgumentException e)
         {
-            return filterIntersections(List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(radius)))), ray,maxDistance);
+            if(alignZero(radius - maxDistance) <= 0)
+                return List.of(new GeoPoint(this,ray.getP0().add(ray.getDir().scale(radius))));
         }
 
         double tm = u.dotProduct(ray.getDir());
@@ -75,21 +77,25 @@ public class Sphere extends RadialGeometry{
         if (t1 <=0)
         {
             p2 = ray.getPoint(t2);
-            return filterIntersections(List.of(new GeoPoint(this,p2)), ray, maxDistance);
+            if(alignZero(p2.distance(ray.getP0()) - maxDistance) <= 0)
+                 return List.of(new GeoPoint(this, p2));
         }
 
         if(t2 <= 0)
         {
             p1 = ray.getPoint(t1);
-            return filterIntersections(List.of(new GeoPoint(this,p1)), ray, maxDistance);
+            if(alignZero(p1.distance(ray.getP0()) - maxDistance) <= 0)
+                return List.of(new GeoPoint(this, p1));
         }
 
         p1 = ray.getPoint(t1);
         p2 = ray.getPoint(t2);
-
-        return filterIntersections(List.of(new GeoPoint(this,p1),new GeoPoint(this,p2)), ray, maxDistance);
-
-
+        List<GeoPoint> points = new ArrayList<>();
+        if(alignZero(p1.distance(ray.getP0()) - maxDistance) <= 0)
+            points.add(new GeoPoint(this, p1));
+        if(alignZero(p2.distance(ray.getP0()) - maxDistance) <= 0)
+            points.add(new GeoPoint(this, p2));
+        return points.isEmpty() ? null : points;
     }
 }
 

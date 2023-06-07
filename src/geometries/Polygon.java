@@ -150,18 +150,20 @@ public class Polygon extends Geometry {
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance) {
         //find the intersections of the ray with the plane
-        List<GeoPoint> geoList = filterIntersections(plane.findGeoIntersections(ray), ray, maxDistance);
-        List<Point> intersections  = (geoList == null) ? null : geoList.stream().map(gp -> gp.point).toList();
+        List<GeoPoint> geoList = plane.findGeoIntersections(ray);
+
+        //List<Point> intersections  = (geoList == null) ? null : geoList.stream().map(gp -> gp.point).toList();
+
         //if there are no intersections with the plane, return null
-        if (intersections != null) {
-            //if the point is inside the polygon, return the intersection point
-            if (PointInPolygon(intersections.get(0))) {
-                List<GeoPoint> gp = new ArrayList<>(intersections.size());
-                for (var p: intersections) {
-                    gp.add(new GeoPoint(this,p));
-                }
-                return gp;
-            }
+        if (geoList == null) return null;
+
+        Point point  = geoList.get(0).point;
+
+        if(alignZero(point.distance(ray.getP0()) - maxDistance) > 0) return null;
+
+        //if the point is inside the polygon, return the intersection point
+        if (PointInPolygon(point)) {
+                return List.of(new GeoPoint(this, point));
         }
         //if the point is not inside the polygon, return null
         return null;

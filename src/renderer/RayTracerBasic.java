@@ -214,7 +214,7 @@ public class RayTracerBasic extends RayTracerBase{
     private Double3 transparency(GeoPoint gp, LightSource ls, Vector l, Vector n)
     {
         if(gp.geometry.getMaterial().kT == Double3.ZERO)
-            return Double3.ONE;
+            return Double3.ZERO;
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(gp.point, lightDirection, n);
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, ls.getDistance(gp.point));
@@ -225,10 +225,9 @@ public class RayTracerBasic extends RayTracerBase{
         //point than the light source multiply ktr by 𝒌𝑻 of its geometry
         for(GeoPoint geoPoint : intersections)
         {
-            if(geoPoint.point.distance(gp.point) < ls.getDistance(gp.point))
-            {
-                ktr = ktr.scale(geoPoint.geometry.getMaterial().kT);
-            }
+            ktr = ktr.scale(geoPoint.geometry.getMaterial().kT);
+            if(ktr.lowerThan(MIN_CALC_COLOR_K))
+                return Double3.ZERO;
         }
         return ktr;
     }
