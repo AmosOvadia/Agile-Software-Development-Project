@@ -93,18 +93,18 @@ public class Triangle extends Polygon {
         //get the intersection point with the plane that the triangle is on
         Plane plane1 = new Plane(this.vertices.get(0), this.vertices.get(1), this.vertices.get(2));
         List<GeoPoint> geoList = plane1.findGeoIntersections(ray,maxDistance);
-        List<Point> list  = (geoList == null) ? null : geoList.stream().map(gp -> gp.point).toList();
+
+        if(geoList == null)  return null;
+        //List<Point> list  =  geoList.stream().map(gp -> gp.point).toList();
+        Point point  = geoList.get(0).point;
+
+        if(alignZero(point.distance(ray.getP0()) - maxDistance) > 0) return null;
 
         //check if the point is in the triangle
-        if (list != null) {
-            if (PointInTriangle(list.get(0))) {
-                List<GeoPoint> gp = new ArrayList<>(list.size());
-                for (var p: list) {
-                    gp.add(new GeoPoint(this,p));
-                }
-                return gp;
-            }
+        if (PointInTriangle(point)) {
+                return List.of(new GeoPoint(this, point));
         }
+
         return null;
     }
 }
