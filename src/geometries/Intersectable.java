@@ -91,12 +91,12 @@ public abstract class Intersectable {
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
     //protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
-    protected final List<GeoPoint> filterIntersections(List<GeoPoint> lst,Ray ray, double maxDistance) {
+    /*protected final List<GeoPoint> filterIntersections(List<GeoPoint> lst,Ray ray, double maxDistance) {
 
         if(lst == null)
             return null;
         lst =  (maxDistance == Double.POSITIVE_INFINITY) ? lst :  lst.stream().filter(
                 gp -> alignZero(gp.point.distance(ray.getP0()) - maxDistance) <= 0).toList();
         return (lst.isEmpty()) ? null : lst;
-    }
+    }*/
 }

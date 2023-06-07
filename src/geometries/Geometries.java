@@ -50,7 +50,7 @@ public class Geometries extends Intersectable {
         //iterates over the list of geometries and finds the intersected points
         for(Intersectable obj : geometries)
         {
-            List<GeoPoint> lst = filterIntersections(obj.findGeoIntersections(ray),ray,maxDistance);
+            List<GeoPoint> lst = obj.findGeoIntersections(ray, maxDistance);
             if(lst != null)//if there are intersected points we add them to the list
             {
                 if(points == null)//if the list is empty we create a new list
