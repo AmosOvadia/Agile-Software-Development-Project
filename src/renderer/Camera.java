@@ -1,7 +1,9 @@
 package renderer;
 import primitives.*;
+import primitives.Vector;
 
-import java.util.MissingResourceException;
+import javax.sound.sampled.Line;
+import java.util.*;
 
 /**
  * a class for camera in the scene that takes the picture
@@ -17,7 +19,16 @@ public class Camera {
     double distance;
     ImageWriter imageWriter;
     RayTracerBase rayTracerBase;
-
+    int amountOfRays = 0;
+    private Lense lense = null;
+    public Camera setLense(double focalDist, double apeture) {
+        lense = new Lense(focalDist,apeture);
+        return this;
+    }
+    public Camera setAmountOfRays(int n) {
+        amountOfRays = n;
+        return this;
+    }
     /**
      * setter for image writer
      * @param imageWriter image writer
@@ -82,6 +93,10 @@ public class Camera {
         return  this;
     }
 
+    public Ray constructRay(int nX, int nY, int j, int i)
+    {
+        return new Ray(Point.ZERO,new Vector(0,0,0));
+    }
     /**
      * constructs a ray through the view plane
      * @param nX number of pixels in x axis
@@ -90,7 +105,7 @@ public class Camera {
      * @param i pixel in y axis
      * @return Ray
      */
-    public Ray constructRay(int nX, int nY, int j, int i)
+    public List<Ray> constructBeam(int nX, int nY, int j, int i,List<Point> points)
     {
      if(nX <= 0 || nY <= 0 || j < 0 || i < 0)
      {
@@ -105,24 +120,23 @@ public class Camera {
        double xj = (j- ((double)(nX - 1)/2))*rX;
 
      Point p_ij = pc;
-      if(xj == 0 && yi == 0 ) {
-          return  new Ray(location,p_ij.subtract(location));
+      if(yi != 0)
+      {
+           p_ij = p_ij.add(vUp.scale(yi));
       }
-      else {
-          if(xj == 0)
-          {
-               p_ij = pc.add(vUp.scale(yi)) ;
-          }
-          else if(yi==0)
-          {
-               p_ij = pc.add( vRight.scale(xj));
-          }
-          else
-          {
-               p_ij = pc.add( vRight.scale(xj).add(vUp.scale(yi)));
-          }
+      if(xj != 0)
+      {
+           p_ij = p_ij.add( vRight.scale(xj));
       }
-       return  new Ray(location,p_ij.subtract(location));
+
+      Point focalPoint = location.add(p_ij.subtract(location).normalize().scale(lense.focalDistance));
+
+      List<Ray> rays = new LinkedList<>();
+      for(Point point : points)
+      {
+         rays.add(new Ray(point,focalPoint.subtract(point).normalize()));
+      }
+       return  List.of(new Ray(location,p_ij.subtract(location)));
     }
 
     /**
@@ -195,17 +209,60 @@ public class Camera {
 
         int resX = imageWriter.getNx();
         int resY = imageWriter.getNy();
+        List<Point> points = getPoints();
         for(int i = 0; i < resX; i++)
         {
             for(int j = 0; j < resY; j++)
             {
-                Ray ray = constructRay(resX,resY,i,j);
-                Color color = rayTracerBase.traceRay(ray);
+                double red = 0;
+                double green = 0;
+                double blue = 0;
+                Color color = Color.BLACK;
+                List<Ray> rays = constructBeam(resX,resY,i,j,points);
+                int size = rays.size();
+                for(Ray ray : rays)
+                {
+                    color = rayTracerBase.traceRay(ray);
+                    red += color.getColor().getRed();
+                    green += color.getColor().getGreen();
+                    blue += color.getColor().getBlue();
+                }
+                red /= size;
+                green /= size;
+                blue /= size;
                 imageWriter.writePixel(i,j,color);
             }
         }
+
         return this;
     }
+
+
+    private List<Point> getPoints() {
+        int n = (int)Math.sqrt(amountOfRays);
+        double boxSize = lense.apeture / n;
+        double halfBox = boxSize/2;
+        List<Point> pList = new LinkedList<>();
+        Random rand = new Random();
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < n; j ++)
+            {
+                double offsetX = rand.nextDouble(boxSize) - halfBox;
+                double offsetY = rand.nextDouble(boxSize) - halfBox;
+                double yi = -1.0*(i- ((double)(n - 1)/2))*boxSize;// + offsetY;
+                double xj = (j- ((double)(n - 1)/2))*boxSize;// + offsetX;
+                Point p = location;
+                if(yi != 0)
+                    p = p.add(vUp.scale(yi));
+                if(xj != 0)
+                    p = p.add(vRight.scale(xj));
+                pList.add(p);
+            }
+        }
+        return pList;
+    }
+
 
     /**
      * print a grid on the view plane
@@ -219,9 +276,7 @@ public class Camera {
             throw new MissingResourceException("Missing resource", "Camera", "imageWriter");
         }
         int nX = imageWriter.getNx();
-        //int nXInterval = nX/ interval;
         int nY = imageWriter.getNy();
-        //int nYInterval = nY/ interval;
 
         for(int i = 0; i < nX; i += interval)
             for(int j = 0; j < nY; j ++)
