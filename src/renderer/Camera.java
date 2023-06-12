@@ -2,7 +2,6 @@ package renderer;
 import primitives.*;
 import primitives.Vector;
 
-import javax.sound.sampled.Line;
 import java.util.*;
 
 /**
@@ -19,14 +18,30 @@ public class Camera {
     double distance;
     ImageWriter imageWriter;
     RayTracerBase rayTracerBase;
-    int amountOfRays = 0;
-    private Lense lense = null;
-    public Camera setLense(double focalDist, double apeture) {
-        lense = new Lense(focalDist,apeture);
+    private RaySampler raySampler;
+    private double focalDistance = 0;
+    private double aperture = 0;
+
+    /**
+     * setter for the ray sampler
+     * @param amountOfRays the amount of rays that will be generated
+     * @return Camera
+     */
+    public Camera setRaySampler(int amountOfRays)
+    {
+        raySampler = new RaySampler(amountOfRays);
         return this;
     }
-    public Camera setAmountOfRays(int n) {
-        amountOfRays = n;
+
+    /**
+     * setter for the  focal distance and aperture
+     * @param focalDist focal distance
+     * @param apeture aperture
+     * @return Camera
+     */
+    public Camera setLense(double focalDist, double apeture) {
+        this.focalDistance = focalDist;
+        this.aperture = apeture;
         return this;
     }
     /**
@@ -93,52 +108,6 @@ public class Camera {
         return  this;
     }
 
-    public Ray constructRay(int nX, int nY, int j, int i)
-    {
-        return new Ray(Point.ZERO,new Vector(0,0,0));
-    }
-    /**
-     * constructs a ray through the view plane
-     * @param nX number of pixels in x axis
-     * @param nY number of pixels in y axis
-     * @param j pixel in x axis
-     * @param i pixel in y axis
-     * @return Ray
-     */
-    public List<Ray> constructBeam(int nX, int nY, int j, int i,List<Point> points)
-    {
-     if(nX <= 0 || nY <= 0 || j < 0 || i < 0)
-     {
-         throw  new IllegalArgumentException("The numbers less then zero!");
-     }
-       Point pc = location.add(vTo.scale(distance));
-       double rY = this.height / nY;
-       double rX = this.width / nX;
-
-       double yi = -1.0*(i- ((double)(nY - 1)/2))*rY;
-
-       double xj = (j- ((double)(nX - 1)/2))*rX;
-
-     Point p_ij = pc;
-      if(yi != 0)
-      {
-           p_ij = p_ij.add(vUp.scale(yi));
-      }
-      if(xj != 0)
-      {
-           p_ij = p_ij.add( vRight.scale(xj));
-      }
-
-      Point focalPoint = location.add(p_ij.subtract(location).normalize().scale(lense.focalDistance));
-
-      List<Ray> rays = new LinkedList<>();
-      for(Point point : points)
-      {
-         rays.add(new Ray(point,focalPoint.subtract(point).normalize()));
-      }
-       return  List.of(new Ray(location,p_ij.subtract(location)));
-    }
-
     /**
      * getter for location
      * @return Point
@@ -196,6 +165,26 @@ public class Camera {
     }
 
     /**
+     * getter for apeture
+     * @return double
+     */
+
+    public double getAperture()
+    {
+        return aperture;
+    }
+
+    /**
+     * getter for focal distance
+     * @return double
+     */
+
+    public double getFocalDistance()
+    {
+        return focalDistance;
+    }
+
+    /**
      * renders the image by the ray tracer
      */
     public Camera renderImage()
@@ -209,7 +198,71 @@ public class Camera {
 
         int resX = imageWriter.getNx();
         int resY = imageWriter.getNy();
-        List<Point> points = getPoints();
+        if(aperture == 0)
+            RenderNoDOF(resX,resY);
+        else
+            imageRenderWithDOF(resX,resY);
+
+        return this;
+    }
+
+
+
+    /**
+     * calculates the center point of a given pixes
+     * @param nX number of pixels in x axis
+     * @param nY number of pixels in y axis
+     * @param j the pixel's index in x axis
+     * @param i the pixel's index in y axis
+     * @return Point the center point of the pixel
+     */
+    private Point calcPIJ(int nX, int nY, int j, int i)
+    {
+        if(nX <= 0 || nY <= 0 || j < 0 || i < 0)
+        {
+            throw  new IllegalArgumentException("The numbers less then zero!");
+        }
+        Point pc = location.add(vTo.scale(distance));
+        double rY = this.height / nY;
+        double rX = this.width / nX;
+
+        double yi = -1.0*(i- ((double)(nY - 1)/2))*rY;
+
+        double xj = (j- ((double)(nX - 1)/2))*rX;
+
+        Point p_ij = pc;
+        if(yi != 0)
+        {
+            p_ij = p_ij.add(vUp.scale(yi));
+        }
+        if(xj != 0)
+        {
+            p_ij = p_ij.add( vRight.scale(xj));
+        }
+        return p_ij;
+    }
+
+    /**
+     * constructs a ray that goes through the center of a given pixel for rendering without DOF
+     * @param nX number of pixels in x axis
+     * @param nY number of pixels in y axis
+     * @param j the pixel's index in x axis
+     * @param i the pixel's index in y axis
+     * @return Ray the ray that goes through the center of the pixel
+     */
+    public Ray constructRay(int nX, int nY, int j, int i)
+    {
+        Point p_ij = calcPIJ(nX,nY,j,i);
+        return  new Ray(location,p_ij.subtract(location));
+    }
+
+    /**
+     * renders the image with DOF
+     * @param resX number of pixels in x axis
+     * @param resY number of pixels in y axis
+     */
+    private void imageRenderWithDOF(int resX, int resY) {
+
         for(int i = 0; i < resX; i++)
         {
             for(int j = 0; j < resY; j++)
@@ -218,51 +271,46 @@ public class Camera {
                 double green = 0;
                 double blue = 0;
                 Color color = Color.BLACK;
-                List<Ray> rays = constructBeam(resX,resY,i,j,points);
+                //int n = raySampler.getSqrtAmountOfRays();
+                double boxSize = aperture / raySampler.getSqrtAmountOfRays();
+
+                Point pij = calcPIJ(resX,resY,i,j);
+                
+                Point focalPoint = location.add(pij.subtract(location).normalize().scale(focalDistance));
+
+                List<Ray> rays = raySampler.constructDOFBeam(focalPoint, boxSize, this);
                 int size = rays.size();
                 for(Ray ray : rays)
                 {
-                    color = rayTracerBase.traceRay(ray);
-                    red += color.getColor().getRed();
-                    green += color.getColor().getGreen();
-                    blue += color.getColor().getBlue();
+                    color = color.add(rayTracerBase.traceRay(ray));
+                    //red += color.getColor().getRed();
+                    //green += color.getColor().getGreen();
+                    //blue += color.getColor().getBlue();
                 }
-                red /= size;
-                green /= size;
-                blue /= size;
+                //red /= size;
+                //green /= size;
+                //blue /= size;
+                imageWriter.writePixel(i,j,color.reduce(size));
+            }
+        }
+    }
+
+    /**
+     * renders the image without DOF
+     * @param resX number of pixels in x axis
+     * @param resY number of pixels in y axis
+     */
+    private void RenderNoDOF(int resX, int resY){
+        for(int i = 0; i < resX; i++)
+        {
+            for(int j = 0; j < resY; j++)
+            {
+                Ray ray = constructRay(resX,resY,i,j);
+                Color color = rayTracerBase.traceRay(ray);
                 imageWriter.writePixel(i,j,color);
             }
         }
-
-        return this;
     }
-
-
-    private List<Point> getPoints() {
-        int n = (int)Math.sqrt(amountOfRays);
-        double boxSize = lense.apeture / n;
-        double halfBox = boxSize/2;
-        List<Point> pList = new LinkedList<>();
-        Random rand = new Random();
-        for(int i = 0; i < n; i++)
-        {
-            for(int j = 0; j < n; j ++)
-            {
-                double offsetX = rand.nextDouble(boxSize) - halfBox;
-                double offsetY = rand.nextDouble(boxSize) - halfBox;
-                double yi = -1.0*(i- ((double)(n - 1)/2))*boxSize;// + offsetY;
-                double xj = (j- ((double)(n - 1)/2))*boxSize;// + offsetX;
-                Point p = location;
-                if(yi != 0)
-                    p = p.add(vUp.scale(yi));
-                if(xj != 0)
-                    p = p.add(vRight.scale(xj));
-                pList.add(p);
-            }
-        }
-        return pList;
-    }
-
 
     /**
      * print a grid on the view plane

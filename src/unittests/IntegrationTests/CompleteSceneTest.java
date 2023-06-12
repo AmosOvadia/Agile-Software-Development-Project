@@ -97,14 +97,16 @@ public class CompleteSceneTest {
         scene.lights.add( //
                 new DirectionalLight(new Color(253,251,211), new Vector(3,-1,0)));
         scene.setAmbientLight(new AmbientLight(new Color(WHITE),0.2));
-        camera.setImageWriter(new ImageWriter(pictName, 1000, 1000)) //
+        camera.setImageWriter(new ImageWriter(pictName, 400, 400)) //
+                .setRaySampler(100)
+                .setLense(1300,50)
                 .renderImage() //
                 .writeToImage();
     }
 
     /** Produce a picture of a sphere and triangle with point light and shade */
     @Test
-    public void sphereTriangleInitial() {
+    public void TestFullRoom() {
         sphereTriangleHelper("fullRoom", //
                 new Point(0, 90, -500));
     }
