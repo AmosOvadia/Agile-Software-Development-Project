@@ -21,7 +21,17 @@ public class Camera {
     private RaySampler raySampler;
     private double focalDistance = 0;
     private double aperture = 0;
+    private int threadsCount = 1;
+    private double debugPrint = 1;
 
+    public Camera setDebugPrint(double v) {
+        this.debugPrint = v;
+        return this;
+    }
+    public Camera setMultithreading(int threads) {
+        this.threadsCount = threads;
+        return this;
+    }
     /**
      * setter for the ray sampler
      * @param amountOfRays the amount of rays that will be generated
@@ -194,14 +204,32 @@ public class Camera {
             throw new MissingResourceException("Missing resource", "Camera", "location or vTo or vUp or vRight or height or width or distance or imageWriter or rayTracerBase");
         }
 
-        //throw new UnsupportedOperationException("missing implementation");
 
         int resX = imageWriter.getNx();
         int resY = imageWriter.getNy();
-        if(aperture == 0)
-            RenderNoDOF(resX,resY);
-        else
-            imageRenderWithDOF(resX,resY);
+
+        Pixel.initialize(resX,resY,debugPrint);
+
+        int a = 0;
+        while(threadsCount-- > 0)
+        {
+            new Thread(() -> {
+                for(Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
+                {
+                    if(aperture == 0) //if there is no DOF
+                        RenderNoDOF(resX,resY,pixel.col, pixel.row);
+                    else
+                        imageRenderWithDOF(resX,resY, pixel.col, pixel.row);
+
+                    /* if(pixel.col == pixel.row)
+                    {
+                        System.out.println("col: " + pixel.col + " row: " + pixel.row);
+                    }
+                     */
+                }
+            }).start();
+        }
+        Pixel.waitToFinish();
 
         return this;
     }
@@ -261,17 +289,9 @@ public class Camera {
      * @param resX number of pixels in x axis
      * @param resY number of pixels in y axis
      */
-    private void imageRenderWithDOF(int resX, int resY) {
+    private void imageRenderWithDOF(int resX, int resY, int i, int j) {
 
-        for(int i = 0; i < resX; i++)
-        {
-            for(int j = 0; j < resY; j++)
-            {
-                double red = 0;
-                double green = 0;
-                double blue = 0;
                 Color color = Color.BLACK;
-                //int n = raySampler.getSqrtAmountOfRays();
                 double boxSize = aperture / raySampler.getSqrtAmountOfRays();
 
                 Point pij = calcPIJ(resX,resY,i,j);
@@ -283,16 +303,8 @@ public class Camera {
                 for(Ray ray : rays)
                 {
                     color = color.add(rayTracerBase.traceRay(ray));
-                    //red += color.getColor().getRed();
-                    //green += color.getColor().getGreen();
-                    //blue += color.getColor().getBlue();
                 }
-                //red /= size;
-                //green /= size;
-                //blue /= size;
                 imageWriter.writePixel(i,j,color.reduce(size));
-            }
-        }
     }
 
     /**
@@ -300,16 +312,10 @@ public class Camera {
      * @param resX number of pixels in x axis
      * @param resY number of pixels in y axis
      */
-    private void RenderNoDOF(int resX, int resY){
-        for(int i = 0; i < resX; i++)
-        {
-            for(int j = 0; j < resY; j++)
-            {
+    private void RenderNoDOF(int resX, int resY,int i, int j){
                 Ray ray = constructRay(resX,resY,i,j);
                 Color color = rayTracerBase.traceRay(ray);
                 imageWriter.writePixel(i,j,color);
-            }
-        }
     }
 
     /**
@@ -317,7 +323,7 @@ public class Camera {
      * @param interval interval length between lines
      * @param color color of the lines
      */
-    public void printGrid(int interval, Color color) {
+    public Camera printGrid(int interval, Color color) {
 
         if(imageWriter == null)
         {
@@ -333,6 +339,7 @@ public class Camera {
         for(int i = 0; i < nY; i ++)
             for(int j = 0; j < nX; j += interval)
                 imageWriter.writePixel(i, j, color);
+        return this;
     }
 
     /**
