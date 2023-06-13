@@ -81,7 +81,6 @@ public abstract class Intersectable {
         return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
-
     /**
      * finds the intersected points of a ray in the geometry with a max distance
      * @param ray The ray to intersect with
@@ -90,13 +89,19 @@ public abstract class Intersectable {
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
-    //protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
-    /*protected final List<GeoPoint> filterIntersections(List<GeoPoint> lst,Ray ray, double maxDistance) {
+    /**
+     * finds the minimum coordinates of the geometry
+     * if returns null the geometry is infinite
+     * @return Point
+     */
+    public abstract Point getMinCoords();
 
-        if(lst == null)
-            return null;
-        lst =  (maxDistance == Double.POSITIVE_INFINITY) ? lst :  lst.stream().filter(
-                gp -> alignZero(gp.point.distance(ray.getP0()) - maxDistance) <= 0).toList();
-        return (lst.isEmpty()) ? null : lst;
-    }*/
+    /**
+     * finds the maximum coordinates of the geometry
+     * if returns null the geometry is infinite
+     * @return Point
+     */
+    public abstract Point getMaxCoords();
+
+    public abstract Point getCenterPoint();
 }

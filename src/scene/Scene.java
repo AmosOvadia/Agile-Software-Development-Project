@@ -17,6 +17,8 @@ public class Scene {
     public Geometries geometries = new Geometries();
     public List<LightSource> lights = new LinkedList<>();
 
+    public Bvh bvh;
+
     /**
      * constructor for scene
      * @param name the name of the scene
@@ -53,6 +55,7 @@ public class Scene {
      */
     public Scene setGeometries(Geometries geometries) {
         this.geometries = geometries;
+        //this.bvh = new Bvh(geometries);
         return this;
     }
 
@@ -64,5 +67,18 @@ public class Scene {
     public Scene setLights(List<LightSource> lights) {
         this.lights = lights;
         return this;
+    }
+
+    public Scene setBvh(Geometries geometries) {
+        this.bvh = new Bvh(geometries);
+        return this;
+    }
+
+    public Geometries getIntersectedGeometries(Ray ray)
+    {
+        if(bvh == null)
+            return geometries;
+
+        return bvh.getIntersectedGeometries(ray);
     }
 }

@@ -192,7 +192,8 @@ public class RayTracerBasic extends RayTracerBase{
     {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(gp.point, lightDirection, n);
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
+        //List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
+        List<GeoPoint> intersections = scene.getIntersectedGeometries(lightRay).findGeoIntersections(lightRay, light.getDistance(gp.point));
         if(intersections == null)
             return true;
         for(GeoPoint geoPoint : intersections)
@@ -217,7 +218,8 @@ public class RayTracerBasic extends RayTracerBase{
             return Double3.ZERO;
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(gp.point, lightDirection, n);
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, ls.getDistance(gp.point));
+        //List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, ls.getDistance(gp.point));
+        List<GeoPoint> intersections = scene.getIntersectedGeometries(lightRay).findGeoIntersections(lightRay, ls.getDistance(gp.point));
         if (intersections == null)
             return Double3.ONE;
         Double3 ktr = Double3.ONE;
@@ -267,7 +269,8 @@ public class RayTracerBasic extends RayTracerBase{
      * @return the closest intersection point to the ray's head
      */
     private GeoPoint findClosestIntersection(Ray ray) {
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+        //List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+        List<GeoPoint> intersections = scene.getIntersectedGeometries(ray).findGeoIntersections(ray);
         if (intersections == null) return null;
         GeoPoint closestPoint = null;
         double closestDistance = Double.MAX_VALUE;

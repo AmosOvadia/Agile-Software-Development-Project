@@ -136,4 +136,19 @@ class SphereTests {
         assertNull(result, "Ray should not intersect the sphere");
 
     }
+
+    @Test
+    public void testGetMinCoords()
+    {
+        Sphere sphere = new Sphere(new Point(1,2,3), 4);
+        assertEquals(new Point(-3, -2, -1), sphere.getMinCoords(), "Wrong min coords");
+    }
+
+    @Test
+    public void testGetMaxCoords()
+    {
+        Sphere sphere = new Sphere(new Point(1,2,3), 4);
+        assertEquals(new Point(5, 6, 7), sphere.getMaxCoords(), "Wrong max coords");
+    }
+
 }

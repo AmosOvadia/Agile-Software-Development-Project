@@ -153,4 +153,17 @@ public class PolygonTests {
         assertNull(polygon.findIntersections(ray), "the point is in the polygon");
 
     }
+
+    @Test
+    void testGetMinCoords() {
+        Polygon polygon = new Polygon(new Point(1,0,0), new Point(1,1,0), new Point(0,1,0));
+        assertEquals(new Point(0,0,0), polygon.getMinCoords(), "the point is not the min coords");
+    }
+
+    @Test
+    void testGetMaxCoords()
+    {
+        Polygon polygon = new Polygon(new Point(1,0,0), new Point(1,1,0), new Point(0,1,0));
+        assertEquals(new Point(1,1,0), polygon.getMaxCoords(), "the point is not the max coords");
+    }
 }

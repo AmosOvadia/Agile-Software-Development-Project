@@ -64,6 +64,7 @@ public class Tube extends RadialGeometry{
      * Find the intersections of the ray with the tube.
      * @param ray The ray to intersect with.
      * @return A list of geo points where the ray intersects the tube.
+     * @implNote this method is not implemented
      */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
@@ -171,4 +172,32 @@ public class Tube extends RadialGeometry{
     }
  */
 
+    /**
+     * not implemented
+     * @implNote not inew NotImplemplemented
+     */
+    @Override
+    public Point getMinCoords()
+    {
+        return null;
+    }
+
+    /**
+     * not implemented
+     * @implNote not implemented
+     */
+    @Override
+    public Point getMaxCoords()
+    {
+        return null;
+    }
+
+    /**
+     * not implemented
+     * @implNote not implemented
+     */
+    @Override
+    public Point getCenterPoint() {
+        return null;
+    }
 }

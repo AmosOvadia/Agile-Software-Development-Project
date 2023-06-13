@@ -90,4 +90,34 @@ public class Plane extends Geometry {
             return List.of(new GeoPoint(this,p));
         else return null;
     }
+
+    /**
+     * returns the minimum coordinates of the plane
+     * @return Point
+     */
+    @Override
+    public Point getMinCoords()
+    {
+        return null;
+    }
+
+    /**
+     * returns the maximum coordinates of the plane
+     * @return Point
+     */
+    @Override
+    public Point getMaxCoords()
+    {
+        return null;
+    }
+
+    /**
+     * plane is infinate
+     * @Note: this function returns null
+     * @return null
+     */
+    @Override
+    public Point getCenterPoint() {
+        return null;
+    }
 }

@@ -54,41 +54,42 @@ public class CompleteSceneTest {
             .setVPSize(200, 200).setVPDistance(1000)                                                                       //
             .setRayTracer(new RayTracerBasic(scene));
 
-    void setObjectsHelper(Scene scene)
+    Geometries setObjectsHelper()
     {
+        Geometries geometries = new Geometries();
         for(int i = 0; i < 6 ; i++)
         {
             int j = i*60 -650;
-            scene.geometries.add(new Polygon(new Point(-100, 50, j), new Point(-100, 50, j + 20), new Point(-100, -50,  j + 20), new Point(-100, -50, j))
+            geometries.add(new Polygon(new Point(-100, 50, j), new Point(-100, 50, j + 20), new Point(-100, -50,  j + 20), new Point(-100, -50, j))
                     .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)));
         }
         for (Geometry i : room) {
             i.setMaterial(new Material().setKd(0.8).setKs(1).setShininess(10)).setEmission(new Color(10,10,10));
-            scene.geometries.add(i);
+            geometries.add(i);
         }
         for (Geometry i : table) {
             i.setMaterial(new Material().setKd(0.8).setKs(1).setShininess(50)).setEmission(new Color(164,116,73));
             scene.geometries.add(i);
         }
-        scene.geometries.add(new Sphere(new Point(0, 90, -500),7d)
+        geometries.add(new Sphere(new Point(0, 90, -500),7d)
                         .setEmission(new Color(WHITE))
         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30).setKt(0.25)));
 
         //add mirror
-        scene.geometries.add(
+        geometries.add(
         new Polygon(new Point(99, 40, -750), new Point(99, 40, -350), new Point(99, -100, -350), new Point(99, -100, -750))
                 .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30).setKr(1)));
 
-        scene.geometries.add(
+        geometries.add(
                 new Sphere(new Point(60,-75,-600),25)
                         .setEmission(new Color(RED))
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30)));
+        return geometries;
     }
 
     /** Helper function for the tests in this module */
     void sphereTriangleHelper(String pictName, Point spotLocation) {
 
-        setObjectsHelper(scene);
         scene.lights.add( //
         //new PointLight(new Color(253,251,211), spotLocation) //
         new PointLight(new Color(223,251,211), spotLocation) //
@@ -107,8 +108,34 @@ public class CompleteSceneTest {
     /** Produce a picture of a sphere and triangle with point light and shade */
     @Test
     public void TestFullRoom() {
+
+        long startTime = System.currentTimeMillis();
+
+        scene.geometries.add(setObjectsHelper());
         sphereTriangleHelper("fullRoom", //
                 new Point(0, 90, -500));
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("Total render time: " + totalTime / 1000.0 + " seconds");
+    }
+
+    @Test
+    public void TestFullRoomWithAcceleration() {
+        long startTime = System.currentTimeMillis();
+
+
+        scene.setBvh(setObjectsHelper());
+
+        long endFirstTime = System.currentTimeMillis();
+        long firstTime = endFirstTime - startTime;
+        System.out.println("BVH build time: " + firstTime/1000.0 + " seconds");
+
+        camera.setMultithreading(8).setDebugPrint(0.3);
+        sphereTriangleHelper("fullRoomWithAcceleration", //
+                new Point(0, 90, -500));
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("Total render time: " + totalTime / 1000.0 + " seconds");
     }
 
 }
