@@ -133,10 +133,19 @@ public class Geometries extends Intersectable {
     }
 
 
+
+    /**
+     * get the size of the geometries
+     * @return the size
+     */
     public int size() {
         return geometries.size();
     }
 
+    /**
+     * finds the center point of the geometries
+     * @return the center point
+     */
     @Override
     public Point getCenterPoint() {
         Point min = getMinCoords();
@@ -144,16 +153,20 @@ public class Geometries extends Intersectable {
         return new Point((min.getX() + max.getX()) / 2, (min.getY() + max.getY()) / 2, (min.getZ() + max.getZ()) / 2);
     }
 
+    /**
+     * splits the geometries into two lists
+     * @param box the box to split by
+     * @return the two lists
+     */
     public Geometries splitAxisAligned(AABB box)
     {
-        //not akshually left and right
         List<Intersectable> left = new ArrayList<>();
         List<Intersectable> right = new ArrayList<>();
         Point min = box.getMin();
         Point max = box.getMax();
 
-        //this is genius
-
+        //sorts the geometries by the axis with the largest difference
+        //if the difference is the same, it sorts by the x axis
         if(max.getX() - min.getX() > max.getY() - min.getY() && max.getX() - min.getX() > max.getZ() - min.getZ())
         {
             geometries = geometries.stream().sorted(Comparator.comparingDouble(a -> a.getCenterPoint().getX())).toList();
@@ -161,20 +174,18 @@ public class Geometries extends Intersectable {
             //geometries.sort((a, b) -> (int)(a.getCenterPoint().getX() - b.getCenterPoint().getX()));
             //geometries.sort(new SortByX());
         }
+        //if the difference in the y axis is the largest
         else if(max.getY() - min.getY() > max.getX() - min.getX() && max.getY() - min.getY() > max.getZ() - min.getZ())
         {
             geometries = geometries.stream().sorted(Comparator.comparingDouble(a -> a.getCenterPoint().getY())).toList();
-            //geometries.sort((a, b) -> (new SortByY()).compare(a, b));
-            //geometries.sort((a, b) -> (int)(a.getCenterPoint().getY() - b.getCenterPoint().getY()));
-            //geometries.sort(new SortByY());
         }
+        //if the difference in the z axis is the largest
         else
         {
             geometries = geometries.stream().sorted(Comparator.comparingDouble(a -> a.getCenterPoint().getZ())).toList();
-            //geometries.sort((a, b) -> (new SortByZ()).compare(a, b));
-            //geometries.sort((a, b) -> (int)(a.getCenterPoint().getZ() - b.getCenterPoint().getZ()));
-            //geometries.sort(new SortByZ());
         }
+        //splits the geometries in half
+        //put the first half in left and the second half in right
         for (int i = 0; i < geometries.size()/2; i++) {
                 left.add(geometries.get(i));
         }
@@ -184,29 +195,5 @@ public class Geometries extends Intersectable {
 
         this.geometries = left;
         return new Geometries(right);
-    }
-}
-
-class SortByX implements Comparator<Intersectable>
-{
-    public int compare(Intersectable a, Intersectable b)
-    {
-        return (int)(a.getCenterPoint().getX() - b.getCenterPoint().getX());
-    }
-}
-
-class SortByY implements Comparator<Intersectable>
-{
-    public int compare(Intersectable a, Intersectable b)
-    {
-        return (int)(a.getCenterPoint().getY() - b.getCenterPoint().getY());
-    }
-}
-
-class SortByZ implements Comparator<Intersectable>
-{
-    public int compare(Intersectable a, Intersectable b)
-    {
-        return (int)(a.getCenterPoint().getZ() - b.getCenterPoint().getZ());
     }
 }

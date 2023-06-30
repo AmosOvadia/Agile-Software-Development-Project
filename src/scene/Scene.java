@@ -69,11 +69,21 @@ public class Scene {
         return this;
     }
 
+    /**
+     * add geometries to the scene
+     * @param geometries
+     * @return
+     */
     public Scene setBvh(Geometries geometries) {
         this.bvh = new Bvh(geometries);
         return this;
     }
 
+    /**
+     * add geometries to the scene
+     * @param ray the ray to check intersection with
+     * @return the geometries that intersect with the ray
+     */
     public Geometries getIntersectedGeometries(Ray ray)
     {
         if(bvh == null)

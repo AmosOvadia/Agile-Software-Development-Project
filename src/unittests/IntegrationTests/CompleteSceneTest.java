@@ -99,8 +99,6 @@ public class CompleteSceneTest {
                 new DirectionalLight(new Color(253,251,211), new Vector(3,-1,0)));
         scene.setAmbientLight(new AmbientLight(new Color(WHITE),0.2));
         camera.setImageWriter(new ImageWriter(pictName, 400, 400)) //
-                .setRaySampler(100)
-                .setLense(1300,50)
                 .renderImage() //
                 .writeToImage();
     }
@@ -130,7 +128,7 @@ public class CompleteSceneTest {
         long firstTime = endFirstTime - startTime;
         System.out.println("BVH build time: " + firstTime/1000.0 + " seconds");
 
-        camera.setMultithreading(8).setDebugPrint(0.3);
+        //camera.setMultithreading(2).setDebugPrint(0.3);
         sphereTriangleHelper("fullRoomWithAcceleration", //
                 new Point(0, 90, -500));
         long endTime = System.currentTimeMillis();

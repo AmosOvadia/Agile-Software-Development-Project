@@ -15,8 +15,7 @@ class TeapotAccelaration {
 
         private final Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, 1, 0)) //
                 .setVPDistance(1000).setVPSize(200, 200) //
-                .setImageWriter(imageWriter) //
-                .setMultithreading(8).setDebugPrint(0.1);
+                .setImageWriter(imageWriter);//
 
         private final Scene scene = new Scene("Test scene");
 
@@ -1565,7 +1564,7 @@ class TeapotAccelaration {
         long startTime = System.currentTimeMillis();
 
         camera.setRayTracer(new RayTracerBasic(scene)).renderImage().printGrid(50, new Color(YELLOW)).writeToImage();
-        //camera.setMultithreading(4).setDebugPrint(0.3);
+        camera.setMultithreading(3).setDebugPrint(0.1);
 
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;

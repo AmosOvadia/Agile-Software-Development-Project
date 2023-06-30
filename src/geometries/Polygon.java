@@ -202,6 +202,10 @@ public class Polygon extends Geometry {
         return new Point(maxX, maxY, maxZ);
     }
 
+    /**
+     * finds the center point of the polygon
+     * @return the center point of the polygon
+     */
     public Point getCenterPoint() {
         double sumX = 0;
         double sumY = 0;

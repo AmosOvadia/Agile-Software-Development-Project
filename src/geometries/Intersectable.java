@@ -103,5 +103,9 @@ public abstract class Intersectable {
      */
     public abstract Point getMaxCoords();
 
+    /**
+     * finds the center point of the geometry
+     * @return Point
+     */
     public abstract Point getCenterPoint();
 }
